@@ -1,4 +1,4 @@
-function bjt = calc_bjt(c, i_c, v_b, v_c)
+function bjt = calc_bjt(c, i_c, v_b, v_c, n)
 
   bjt.i_c = i_c;
   bjt.v_b = v_b;
@@ -19,10 +19,10 @@ function bjt = calc_bjt(c, i_c, v_b, v_c)
   bjt.r_c = c.r_c;
   
   % Calculating capacitances
-  bjt.c_u = c.c_uo / (1 + bjt.v_cb / c.psi_oc)^c.n_c;
+  bjt.c_u = c.c_uo / (1 + bjt.v_cb / c.psi_o)^c.n_c;
   
   bjt.c_b = c.t_f * bjt.gm;
-  bjt.c_pi = bjt.c_b + 2 * c.c_jeo;
+  bjt.c_pi = bjt.c_b + 2 * c.c_jeo * n;
   
   
 
