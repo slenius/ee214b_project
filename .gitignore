@@ -1,0 +1,11 @@
+.DS_Store
+*.m~
+*.ic*
+*.lis
+*.st*
+*.sw*
+*.ac*
+*.pa*
+*.swp
+*.log
+*.ma*
