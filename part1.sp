@@ -14,7 +14,8 @@ Cl Vo 0 20f
 C1 vre4 0 1 
 Cd vb1 0 200f
 
-Rf vb1 ve3 220
+Rf vb1 vx1 220
+Vx vx1 ve3 0
 *Cf vb1 ve3
 
 Vcc Vcc 0 dc=2.5
@@ -24,7 +25,9 @@ Ib3 ve3 0 dc 4.5m ac 0
 Ib4 ve4 0 dc 2m ac 0
 
 .op
-*.ac dec 10 1k 1000gig
+.ac dec 100 1k 100gig
+.lstb mode=single vsource=Vx
+.probe ac lstb(db) lstb(p)
 
 .option post brief nomod
 
