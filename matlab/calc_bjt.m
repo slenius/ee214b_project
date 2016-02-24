@@ -24,7 +24,8 @@ function bjt = calc_bjt(c, i_c, v_b, v_c, n)
   bjt.c_b = c.t_f * bjt.gm;
   bjt.c_pi = bjt.c_b + 2 * c.c_jeo * n;
   
-  
+  bjt.beta = c.beta_f;
+  bjt.i_b = bjt.i_c / c.beta_f;
 
 
 end

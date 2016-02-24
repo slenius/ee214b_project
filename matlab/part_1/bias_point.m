@@ -102,3 +102,29 @@ q_w = (1+k) / (r_in * c_in + r_x *c_x);
 q = q_w / w_o;
 
 
+% part f
+p = [1/w_o^2, 1/q_w, 1];
+r = roots(p);
+
+real_pole = real(r(1)/(2 *pi));
+imag_pole = imag(r(1)/(2 *pi));
+
+% part i
+f_o = 1.7443184E+10;
+w_o = f_o * 2 * pi;
+%w_z = w_o / sqrt(2);
+w_z = w_o / (sqrt(2) - (pole.vi.w + pole.vx.w) / w_o);
+c_z = 1 / (w_z * r_f);
+
+c_in_z = c_in + c_z;
+cl_3db_w = sqrt((1+k) / (r_in * c_in_z * r_x * c_x));
+cl_3db_f = cl_3db_w / (2 * pi);
+
+% part k - noise analysis
+
+noise.r_f = 4 * c.k * c.T / r_f;
+noise.i_b = 2 * c.q * q1.i_b;
+noise.i_c = 2 * c.q * q1.i_c / q1.beta^2;
+
+noise.i_in_sq = noise.r_f + noise.i_b + noise.i_c;
+noise.i_in = sqrt(noise.i_in_sq);
