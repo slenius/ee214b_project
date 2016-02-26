@@ -1,0 +1,444 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[latin2]{inputenc}
+\usepackage{graphicx}
+\usepackage{ulem}
+\usepackage{amsmath}
+\usepackage[margin=0.5in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[ampersand]{easylist}
+\usepackage[english]{babel}
+\usepackage{scrextend}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage{stackengine}
+\usepackage{listings}
+%\usepackage[demo]{graphicx}
+%\usepackage{caption}
+%\usepackage{subcaption}
+%\usepackage[utf8]{inputenc}
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document Setup
+
+\pagenumbering{arabic}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title block - Page 0
+
+% Cover page. Clearly indicate the names of the team members.
+
+\author{
+  Singireddi, Sanjana\\
+  \texttt{sanjana9@stanford.edu}\\
+  \texttt{SUID:xxxxxxxx}
+  \and
+  Lenius, Samuel\\
+  \texttt{lenius@stanford.com}\\
+  \texttt{SUID:06091240}
+}
+
+\title{2016 EE214B Design Project - Part I}
+
+\maketitle
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bias Calculations - Page 2
+
+% Bias point calculations for part I (a). Include a comparison with SPICE
+% results from part (b) by providing a table that states the percentage
+% deviations in the calculated voltages, g m and rpi.
+
+\section{Bias Calculations}
+\par
+
+Bias calculations go here.\par
+
+%\begin{figure}[H]
+%	\footnotesize
+%	\stackunder[5pt]{\includegraphics[width=0.5\textwidth]{cmv_vs_vz.png}}{}
+%	\hfill
+%	\stackunder[5pt]{\includegraphics[width=0.5\textwidth]{vz_vs_vy.png}}{}
+%\end{figure}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Calculations c-f, pages 3-6
+
+\section{Calculation of Key Design Parameters}
+
+\textbf{Choice of L}
+
+\begin{itemize}
+\item All devices used in current source have a minimum length of 2$\mu$m.
+\item All other devices in the amplifier have minimum length of 1$\mu$m. 
+Minimum length is used as f$_{t }$ is inversely proportional to L.
+\item All devices in bias generator circuit have length $>$=2$\mu$m.
+\end{itemize}
+
+
+\textbf{Bias Generator circuit}
+
+\begin{itemize}
+\item Constant gm reference based design is used as bias circuit to 
+reduce mismatch errors.
+\item Transconductance of bias device (mn300) depends only on R2 and m ( 
+m is the ratio of MN300/MN400). Therefore gm can be set precisely.
+\item Start-up circuit is used to force the circuit to the desired 
+operating point.
+\end{itemize}
+
+
+\textbf{Approximations for hand calculations}
+
+For simpler hand calculations, following approximations are used.
+
+\newcounter{numberedCntBB}
+\begin{enumerate}
+\item $Cdb=Csb=0.35 Cgs$
+\item $Cgs=(\frac{2}{3})WLCox+Cov'W$
+\item $Cgd=Cov'W$
+\item $gmb=0.2gm$
+\setcounter{numberedCntBB}{\theenumi}
+\end{enumerate}
+
+
+\textbf{Stage4}
+
+\begin{itemize}
+	\item As per the spec, common mode output voltage (vout) has to be within -0.15v to 0.15v. Since the body is connected to vss, MN10 experiences back gate effect and the threshold voltage is given by:
+	\begin{equation}
+	\begin{split}
+		Vt=Vt_0+ \gamma(\sqrt{2\phi f+V_{sb}}- \sqrt{2}\phi f\\
+		Vt_0=0.5V , \gamma=0.6 , 2\phi f=0.8
+	\end{split}
+	\end{equation}
+
+
+	\item Stage 4 is a source follower which has a gain given by
+	\begin{equation}
+		A4=\frac{gm_{10}}{gm_{10}+gmb_{10}+(\frac{1}{R_L})}
+	\end{equation}
+	\item Gain of stage4 (A4) $<$1 due to back gate effect and the output load. 
+	\item To achieve gain closer to 1 (0.6 - 0.7), it is important to size and bias MN10 such that ($gm_{10}+ gmb_{10}) >> (1/R_L)$. 
+	\item Transconductance of and drain current of $MN_{10}$ is given by 
+	\begin{equation}
+		gm_{10}= \mu nCox(\frac{W}{L})vov_{10}
+	\end{equation}
+	\begin{equation}
+		Id_{10}=0.5\mu nCox(\frac{W_{10}}{L_{10}})vov_{10}^2 (1+\lambda (Vdd-Vout))
+	\end{equation}
+	\item $MN_9$ (bias device for source follower) is sized such that $Id_{10}+ I_{R_L}= Id_9$ and the common mode output voltage does not fall out of range. This device is chosen to be of smaller size to reduce loading on Vout node. 
+	\begin{equation}
+		\tau_{OUTPUT} = (R_L || \frac{1}{1.2gm_{10}})(C_L+Csb_{10}+Cgd_9+Cdb_9)
+	\end{equation}
+	\item Cgs10 is assumed to be very small due to boot-strapping.
+\end{itemize}
+
+
+\textbf{Stage 3}
+
+\begin{itemize}
+	\item Loading at node Vy increases with the increase in gain of stage 3 due to the miller effect. Hence gain of stage3 is kept low and is fixed at sqrt(2) to compensate for the gain lost in stage 4. Gain of stage3 (CS amplifier with diode connected load):
+	\begin{equation}
+		|A3|=\frac{gm7}{gm8}=\frac{Vov8}{Vov7}=\frac{Vdd-Vz-abs(Vtp)}{Vy-Vss-Vtn}=\sqrt{2}
+	\end{equation}
+
+	\item Choice of Vz from above (stage4) determines Vy.	
+	\item Minimum device sizes (W=2$\mu$m, L=1$\mu$m) are used for both MN7 and MP8 to reduce loading on Vy and Vz.
+	\begin{equation}
+		Id_7=Id_8=0.5\mu nCox(\frac{W_7}{L_7})vov_7^{2} (1+\lambda(Vz-Vss))
+	\end{equation}
+	\begin{equation}
+		\tau_Z=(\frac{1}{gm_8})(Cgs_8+Cdb_8+Cgd_{10}+Cgd_7(1+\frac{1}{|A3|})+Cdb_7)
+	\end{equation}
+\end{itemize}
+
+
+\textbf{Stage 2}
+
+\begin{itemize}
+	\item Vy from stage Z above determines the required ratio of R3 and R4.
+	\begin{equation}
+		(\frac{R4}{R3})=\frac{Vss}{Vy}-1
+	\end{equation}
+
+	\item Gain of stage Y (Cascode amplifier) is set to 3.
+	\begin{equation}
+		|A2|=gm4(R3 || R4)
+	\end{equation}
+	\item $Vov_4$ and $W_{4}$ are optimized to reduce $\tau_X$.
+\end{itemize}
+
+
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=10.63cm,height=7.99cm]{tau_x_y_vs_mp4.png}
+%\end{figure}
+
+
+\begin{itemize}
+	\item MN6 is sized such that current through MN6 is same as the current through MP4 and MP5. 
+	\begin{equation}
+		Id4=Id5=Id6=0.5\mu pCox(\frac{W4}{L4})(Vdd-Vx-abs(Vtp))^{2} (1+\lambda (Vdd-Vw)
+	\end{equation}
+	\item Current through R3 and R4
+	\begin{equation}
+		I_{R3}+I_{R4}=Vss/(R3+R4)
+	\end{equation}
+	\begin{equation}
+		\tau_Y=(R3 || R4)(Cgs_7+Cgd_7 (1+|A3|)+Cgd_6+Cdb_6+Cgd_5+Cdb_5)
+	\end{equation}
+\end{itemize}
+
+
+\textbf{Stage 1}
+
+\begin{itemize}
+	\item $Vov_4$ from stage 2 sets $V_X$ which in turn sets the ratio of R1 and R2.
+	\begin{equation}
+		Vov_4=Vdd-Vx-|Vtp|
+	\end{equation}
+	\begin{equation}
+		(\frac{R1}{R2})=\frac{Vdd}{Vx}-1
+	\end{equation}
+	\item Gain of stage 1 (Common gate amplifier) is set to 10000.
+	\begin{equation}
+		|A1|=(R1 || R2)
+	\end{equation}
+	\item MN1 and MP3 are sized such that Id1 = Id3.
+	\item MN2 is sized to reduce $\tau_{IIN}$ node.  $\tau_{IIN}$ is inversely proportional to $gm_2$.
+	\begin{equation}
+		\tau_{IIN}=(\frac{1}{gm2})(Cin+Cgd_1+Cdb_1+Cgs_2+Csb_2)
+	\end{equation}
+	\begin{equation}
+		\tau_{X}=(R1 || R2)(Cgd_2+Cdb_2+Cgd_3+Cdb_3+Cgs_4+Cgd_4)
+	\end{equation}
+\end{itemize}
+
+
+
+%\begin{figure}[h]
+%\centering
+%\includegraphics[width=10.63cm,height=7.99cm]{tau_i_x_vs_mn2.png}
+%\end{figure}
+
+
+\begin{itemize}
+	\item Current through MN1, MN2 and MP3
+	\begin{equation}
+		Id_{1,2,3}=0.5\mu pCox(\frac{W_3}{L_3})(Vdd-VbiasP-|Vtp|)^{2} (1+\lambda (Vdd-Vx))
+	\end{equation}
+	\item Current through R1 and R2
+	\begin{equation}
+		I_{R1}+I_{R2}=Vdd/(R1+R2)
+	\end{equation}
+\end{itemize}
+
+\textbf{Vovn, Vovp}
+
+\begin{itemize}
+	\item Vovn and Vovp are chosen to achieve a reasonable balance between gain, Tau total and Power, and our choice was educated by the gm/Id technology plots.
+\end{itemize}
+	
+\textbf{Total Design Performance}
+\begin{equation}
+	|A_{TOTAL}|=A1* A2* A3* A4
+\end{equation}
+\begin{equation}
+	\tau_{TOTAL}=\tau_{IIN}+\tau_X+\tau_Y+\tau_Z+\tau_{OUTPUT}
+\end{equation}
+\begin{equation}
+	Power=(Vdd-Vss)(Id_1+Id_4+Id_7+Id_{10})+(\frac{Vdd^{2}}{R1+R2})+(\frac{Vss^{2}}{R3+R4})
+\end{equation}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\textbf{Bias Generator} & Hand calc & Spice & \%Error & Reason for error \\
+\hline
+$V_{BiasN}$ & -1.300V &  -1.279V &  -1.6\% &  Startup circuit bias \\
+\hline
+$V_{BiasP}$ & 1.300V &  1.319V & 1.5\%  &  Startup circuit bias \\
+\hline
+  &   &   &   &   \\
+\hline
+\textbf{Stage1} & Hand calc & Spice & \%Error & Reason for error \\
+\hline
+$Id_1$ & 18.3$\mu$A  &  20.9$\mu$A &  14.2\% &  Bias generator error \\
+\hline
+Vx & 1.300V  & 1.275V  & -1.9\%  &   \\
+\hline
+$A_X$ & 10k$\Omega$  & 9.86k$\Omega$  & -1.4\%  & Finite $MN_1$ and $MP_3$ output resistance  \\
+\hline
+$gm_2$ &  210$\mu$S & 268$\mu$S  & 27.6\%  & Bias generator error  \\
+\hline
+$\tau_{IN} $ & 1.11ns  &   &   &   \\
+\hline
+$\tau_X $ & 420ps  &   &   &   \\
+\hline
+  &   &   &   &   \\
+\hline
+\textbf{Stage2} & Hand calc & Spice & \%Error & Reason for error \\
+\hline
+$Id_4$ &  36.75$\mu$A & 43.5$\mu$A & 18.4\%  &   \\
+\hline
+$V_W$ & 1.496V & 1.450V  & -3.2\%  &   \\
+\hline
+$V_Y$ & -1.550V  & -1.418V  &  -8.5\% & Imbalance between $MP_4$ and $MN_6$ current \\
+\hline
+$gm_4$ & 105$\mu$S  &  120$\mu$S & 14.3\%  & Error in $V_Y$ \\
+\hline
+$A_Y$ & -3.0  & -3.25  & 8.3\%  & Error estimating $gm_4$  \\
+\hline
+$\tau_Y$ & 306ps  &   &   &   \\
+\hline
+  &   &   &   &   \\
+\hline
+\textbf{Stage3} & Hand calc & Spice & \%Error & Reason for error \\
+\hline
+$Id_7$ & 10.25$\mu$A  & 22.9$\mu$A  & 123\%  & Error in $V_Y$ plus finite output resistance  \\
+\hline
+$V_Z$ & 1.364 & 1.102V  & -19.2\%  & Error in $V_Y$   \\
+\hline
+$gm_7$ & 45$\mu$S  & 79$\mu$S  & 75.5\%  &  Error in $Id_7$ \\
+\hline
+$gm_8$ & 31.2$\mu$S & 51$\mu$S   &  63.5\% &  Error in $Id_7$  \\
+\hline
+$A_Z$ & 1.414  & 1.440  & 1.8\%  &  The benefit of ratiometric design \\
+\hline
+$\tau_Z$ & 1.92ns  &   &   &  Error in estimating $gm_{8}$ \\
+\hline
+  &   &   &   &   \\
+\hline
+\textbf{Stage4} & Hand calc & Spice & \%Error & Reason for error \\
+\hline
+$Id_{10}$ & 2.96$\mu$A  &  30.43$\mu$A &  928\% & $MN_{10}$'s large width is a big error amplifier  \\
+\hline
+$V_{OUT}$ & 0.299 & -0.117V  &  -139\% &   \\
+\hline
+$Vt_{10}$ & 0.999  & 1.034V  &  3.5\% &   \\
+\hline
+$gm_{10}$ & 91.1$\mu$S   &  327$\mu$S  & 258\%  &   \\
+\hline
+$gmb_{10}$ & 13.0$\mu$S  &  55.1$\mu$S  & 323\%  &   \\
+\hline
+$A_{OUT}$ & 0.71 & 0.75  & 5.6\%  &   \\
+\hline
+$\tau_{OUT}$ & 1.63ns  &   &   & Error in estimating $gm_{10}$  \\
+
+\hline
+Total Power &  578$\mu$W & 1.065mW  & 84\%  & Not accounting for bias gen  \\
+\hline
+Total Gain & 30.04k$\Omega$  & 34.66k$\Omega$   &  15.5\% & Error in estimating gm  \\
+\hline
+\end{tabular}
+\end{table}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bode Diagrams - Page 7
+
+% Simulated Bode Plots of A(jw), magnitude and phase. Clearly annotate the
+% achieved gain and bandwidth. Annotate your hand-calculated values in the same
+% plots, noting any specific features of interest (either from the results
+% themselves or based on what you've learned in hand calculations or scripting
+% the design). Plots must be annotated with meaningful comments/observations.
+
+\section{Simulated Bode Plots}
+
+%{\centering
+%	\includegraphics[width=1.1\textwidth]{mag.png}
+%\par}
+
+%{\centering
+%	\includegraphics[width=1.1\textwidth]{phase.png}
+%\par}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Transient Response - Page 8
+
+% Show a transient simulation plot of the output for a 1 MHz, 1 µA sinusoidal
+% input current. Make sure that there is no distortion.
+
+\section{Simulated Transient Response}
+%\begin{figure}[h]
+%\centering
+%\includegraphics[scale=.75]{transient_response.png}
+%\end{figure}
+
+\pagebreak
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Comments and Conclusions - Page 9
+
+% Comments and conclusion. Here, you can convey issues you may have had, or
+% things you have learned/not learned in this project.
+
+\section{Comments and Conclusion}
+
+\subsection{Notes about Design}
+\begin{itemize}
+\item Resistors contribute to a large part of the overall gain. From manufacturability perspective, passive components are not friendly and 
+also occupy more area on the chip. We feel that while the large value resistors helped us achieve a high gain and low power that they result in a
+possibly overly acedemic design thats not suitable for actual production.
+\item The output source follower stage is very sensitive to biasing due to back gate effect. Small variations on $V_Z$ can drive the output to fall 
+out of desired common mode voltage or drive $MN_10$ into cutoff region and lose all the gain from previous stages.
+\item Any variations in supply voltage causes variation in Vov of MN7 directly (as the device is biased through R3 \& R4) causing $V_Z$ to vary 
+and thereby impacting the biasing of MN10 and gain. This is a great node to lose any and all PSRR.
+\item Common source stage with diode connected load attributes to miller cap loading effect on cascade stage. This is limiting the gain of common 
+source stage to smaller values.
+\item Since the output is single ended, it is susceptible to noise, a differential configuration will be better.
+ 
+\end{itemize}
+
+\subsection{Notes on Project}
+\begin{itemize}
+\item We found it very difficult to balance the many simultaneous requirements, and I felt that this was a very useful exercise that's directly applicable to industry, and not only to chip design. Many times I have found myself trying to explore design spaces that have myrid of opposing non-orthogonal requirements. I feel like I have learned interesting ways to approach these problems both mathematically and strategically.
+\end{itemize}
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Spice Netlist - Appendix I
+
+% Final SPICE netlist and .op output. Include only the MOSFET and node voltage
+% listing from the .op output.
+
+\section{Appendix I}
+\subsection{SPICE Netlist}
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=C,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily}
+
+%\lstset{numbers=left, language=C, style=customc}
+%\lstinputlisting{../Final_Samuel_Lenius_Usha_Kankanala_1p0_34p6_93p0_3043.sp}
+
+\subsection{SPICE .op Output}
+%\lstset{numbers=left, language=C, style=customc}
+%\lstinputlisting{../Final_Samuel_Lenius_Usha_Kankanala_1p0_34p6_93p0_3043.op}
+
+\pagebreak
+
+\subsection{Amplifier - Enlarged}
+%\includegraphics[page=1, width=\textwidth]{project_schematic.pdf}
+
+\pagebreak
+
+\subsection{Bias Circuit - Enlarged}
+%\includegraphics[page=2, width=\textwidth]{project_schematic.pdf}
+
+\pagebreak
+\end{document}
