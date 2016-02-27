@@ -68,6 +68,11 @@ q4.Gm = q4.gm / (1 + r_e4 * q4.gm);
 
 stage_2.gain = -q4.Gm * r_c4;
 
+total_gain = stage_0.gain * stage_1.gain * stage_2.gain;
+total_gain_db = 20 * log10(total_gain);
+
+
+
 c_x = q2.c_u + q3.c_pi / (1 + q3.gm * r_f) + q4.c_pi / (1 + q4.gm * r_e4) +...
       q3.c_u + q4.c_u * (1 - stage_2.gain);
 r_x = parallel_r(r_c2, q3.r_pi * (1 + q3.gm * r_f), q4.r_pi * (1 + q4.gm * r_e4));
@@ -86,6 +91,10 @@ a = stage_0.gain * stage_1.gain;
 f = -1/r_f;
 
 t = a * f;
+
+a_db = 20*log10(-a);
+f_db = 20*log10(-f);
+t_db = 20*log10(t);
 
 pole.w_u = sqrt(t * pole.vi.w * pole.vx.w);
 pole.pm = pi - atan(pole.w_u / pole.vi.w) - atan(pole.w_u / pole.vx.w);
