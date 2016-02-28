@@ -12,6 +12,7 @@
 \usepackage{float}
 \usepackage{stackengine}
 \usepackage{listings}
+\usepackage{epstopdf}
 %\usepackage[demo]{graphicx}
 %\usepackage{caption}
 %\usepackage{subcaption}
@@ -340,105 +341,150 @@ Total Gain & 30.04k$\Omega$  & 34.66k$\Omega$   &  15.5\% & Error in estimating 
 \end{table}
 
 \pagebreak
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Bode Diagrams - Page 7
-
-% Simulated Bode Plots of A(jw), magnitude and phase. Clearly annotate the
-% achieved gain and bandwidth. Annotate your hand-calculated values in the same
-% plots, noting any specific features of interest (either from the results
-% themselves or based on what you've learned in hand calculations or scripting
-% the design). Plots must be annotated with meaningful comments/observations.
-
-\section{Simulated Bode Plots}
-
-%{\centering
-%	\includegraphics[width=1.1\textwidth]{mag.png}
-%\par}
-
-%{\centering
-%	\includegraphics[width=1.1\textwidth]{phase.png}
-%\par}
-
+page
 \pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Transient Response - Page 8
+% Bode Diagrams - Page 7 & 8
 
-% Show a transient simulation plot of the output for a 1 MHz, 1 µA sinusoidal
-% input current. Make sure that there is no distortion.
+% Bode plot and pz outputs for parts I (g) and (h). Be sure to include proper
+% annotations, and comparisons to hand calculated values.
 
-\section{Simulated Transient Response}
-%\begin{figure}[h]
-%\centering
-%\includegraphics[scale=.75]{transient_response.png}
-%\end{figure}
+\section{Bode Plots and PZ Outputs - Part I(g,h)}
+
+{\centering
+	\includegraphics[width=0.8\textwidth]{plots/part_g.eps}
+\par}
+
+\pagebreak
+
+{\centering
+	\includegraphics[width=0.8\textwidth]{plots/part_h.eps}
+\par}
+
+\begin{verbatim}
+ ***************************************************
+    ******   pole/zero analysis
+    input =  0:is          output = v(vo)
+    poles (rad/sec)                 poles ( hertz)
+    real            imag            real            imag            
+    -33.1562m       0.              -5.27698m       0.              
+    -22.9305g       113.319g        -3.64950g       18.0353g        
+    -22.9305g       -113.319g       -3.64950g       -18.0353g       
+    -473.782g       0.              -75.4048g       0.              
+    -1.12800t       0.              -179.526g       0.              
+    -1.18039t       0.              -187.865g       0.              
+
+    zeros (rad/sec)                 zeros ( hertz)
+    real            imag            real            imag            
+    0.              0.              0.              0.              
+    -1.10418t       0.              -175.736g       0.   
+
+\end{verbatim}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Calculations for part I (i). - Page 9
+
+\section{Calculations for Part I(i)}
+
+% part i
+% The capacitor Cf can be used to introduce a feedback zero. Estimate the value
+% of Cf that yields a maximally flat response. What is the expected closed-loop
+% bandwidth of the circuit?
+
+%f_o = 1.7443184E+10;
+%w_o = f_o * 2 * pi;
+%w_z = w_o / sqrt(2);
+%w_z = w_o / (sqrt(2) - (pole.vi.w + pole.vx.w) / w_o);
+%c_z = 1 / (w_z * r_f);
+
+%c_in_z = c_in + c_z;
+%cl_3db_w = sqrt((1+k) / (r_in * c_in_z * r_x * c_x));
+%cl_3db_f = cl_3db_w / (2 * pi);
+A feedback capacitor can be used to introduce a zero into the feedback loop in
+order to push the higher frequency pole out and flatten the response of the
+closed loop amplifier. The optimally flat response of the amplifier occurs when Q = $\sqrt{2}$. Hence:
+
+\begin{equation}
+  \omega_0 = 1.09e11 rad/s
+\end{equation}
+
+\begin{equation}
+  \omega_Z = \frac{\omega_{0}}{\sqrt{2} - \frac{\omega_{P1} + \omega_{P2}}{\omega_{0}}}
+\end{equation}
+
+\begin{equation}
+  C_F = \frac{1}{\omega_Z R_F} = 57fF
+\end{equation}
+
+From this, the new closed loop bandwidth can be calculated as such:
+
+\begin{equation}
+  C_{in,C_F} = C_{in} + C_F
+\end{equation}
+
+\begin{equation}
+  k = \frac{R_{in} * Q1_{gm} * R_x * A_{V3}}{R_F}
+\end{equation}
+
+\begin{equation}
+  BW_{CL,C_F} = \frac{\sqrt{1 + k}}{2 \pi R_{in} C_{in} R_x C_x} = 19.2Ghz
+\end{equation}
 
 \pagebreak
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Comments and Conclusions - Page 9
+% Bode Diagrams - Page 10 & 11
 
-% Comments and conclusion. Here, you can convey issues you may have had, or
-% things you have learned/not learned in this project.
+% Bode plots and pz outputs for part I (j). Be sure to include proper
+% annotations, and comparisons to hand calculated values.
 
-\section{Comments and Conclusion}
+\section{Bode Plots and PZ Outputs - Part I(j)}
 
-\subsection{Notes about Design}
-\begin{itemize}
-\item Resistors contribute to a large part of the overall gain. From manufacturability perspective, passive components are not friendly and 
-also occupy more area on the chip. We feel that while the large value resistors helped us achieve a high gain and low power that they result in a
-possibly overly acedemic design thats not suitable for actual production.
-\item The output source follower stage is very sensitive to biasing due to back gate effect. Small variations on $V_Z$ can drive the output to fall 
-out of desired common mode voltage or drive $MN_10$ into cutoff region and lose all the gain from previous stages.
-\item Any variations in supply voltage causes variation in Vov of MN7 directly (as the device is biased through R3 \& R4) causing $V_Z$ to vary 
-and thereby impacting the biasing of MN10 and gain. This is a great node to lose any and all PSRR.
-\item Common source stage with diode connected load attributes to miller cap loading effect on cascade stage. This is limiting the gain of common 
-source stage to smaller values.
-\item Since the output is single ended, it is susceptible to noise, a differential configuration will be better.
- 
-\end{itemize}
+{\centering
+	\includegraphics[width=0.8\textwidth]{plots/part_j_t.eps}
+\par}
 
-\subsection{Notes on Project}
-\begin{itemize}
-\item We found it very difficult to balance the many simultaneous requirements, and I felt that this was a very useful exercise that's directly applicable to industry, and not only to chip design. Many times I have found myself trying to explore design spaces that have myrid of opposing non-orthogonal requirements. I feel like I have learned interesting ways to approach these problems both mathematically and strategically.
-\end{itemize}
+\pagebreak
+
+{\centering
+	\includegraphics[width=0.8\textwidth]{plots/part_j_a.eps}
+\par}
+
+\begin{verbatim}
+ ***************************************************
+    ******   pole/zero analysis
+
+
+    input =  0:is          output = v(vo)
+
+    poles (rad/sec)                 poles ( hertz)
+    real            imag            real            imag
+    -33.1562m       0.              -5.27698m       0.
+    -102.336g       -49.5561g       -16.2872g       -7.88710g
+    -102.336g       49.5561g        -16.2872g       7.88710g
+    -321.575g       358.533g        -51.1803g       57.0622g
+    -321.575g       -358.533g       -51.1803g       -57.0622g
+    -1.11894t       0.              -178.085g       0.
+    -1.35128t       0.              -215.063g       0.
+    -1.88412t       0.              -299.868g       0.
+
+    zeros (rad/sec)                 zeros ( hertz)
+    real            imag            real            imag
+    0.              0.              0.              0.
+    -1.09418t       0.              -174.144g       0.
+\end{verbatim}
+
 \pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Spice Netlist - Appendix I
+% Noise - Page 12
 
-% Final SPICE netlist and .op output. Include only the MOSFET and node voltage
-% listing from the .op output.
-
-\section{Appendix I}
-\subsection{SPICE Netlist}
-\lstdefinestyle{customc}{
-  belowcaptionskip=1\baselineskip,
-  breaklines=true,
-  frame=L,
-  xleftmargin=\parindent,
-  language=C,
-  showstringspaces=false,
-  basicstyle=\footnotesize\ttfamily}
-
-%\lstset{numbers=left, language=C, style=customc}
-%\lstinputlisting{../Final_Samuel_Lenius_Usha_Kankanala_1p0_34p6_93p0_3043.sp}
-
-\subsection{SPICE .op Output}
-%\lstset{numbers=left, language=C, style=customc}
-%\lstinputlisting{../Final_Samuel_Lenius_Usha_Kankanala_1p0_34p6_93p0_3043.op}
-
-\pagebreak
-
-\subsection{Amplifier - Enlarged}
-%\includegraphics[page=1, width=\textwidth]{project_schematic.pdf}
-
-\pagebreak
-
-\subsection{Bias Circuit - Enlarged}
-%\includegraphics[page=2, width=\textwidth]{project_schematic.pdf}
+% Calculations and simulation plot (with proper annotation) for parts I (k)
+% and (l).
 
 \pagebreak
 \end{document}

@@ -109,6 +109,7 @@ w_o = sqrt((1+k) / (r_in * c_in * r_x * c_x));
 f_o = w_o / (2 * pi);
 q_w = (1+k) / (r_in * c_in + r_x *c_x);
 q = q_w / w_o;
+q_f = q_w / (2*pi);
 
 
 % part f
@@ -122,7 +123,8 @@ imag_pole = imag(r(1)/(2 *pi));
 f_o = 1.7443184E+10;
 w_o = f_o * 2 * pi;
 %w_z = w_o / sqrt(2);
-w_z = w_o / (sqrt(2) - (pole.vi.w + pole.vx.w) / w_o);
+%w_z = w_o / (sqrt(2) - (pole.vi.w + pole.vx.w) / w_o);
+w_z = w_o / (sqrt(2) - (-real_pole/(2*pi) + imag_pole/(2*pi)) / w_o);
 c_z = 1 / (w_z * r_f);
 
 c_in_z = c_in + c_z;

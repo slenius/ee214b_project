@@ -15,18 +15,18 @@ c1 vre4 0 1
 cd vb1 0 200f
 
 rf vb1 vx1 220
+cf vb1 vx1 57f
 vx vx1 ve3 0
-*cf vb1 ve3 37f
 
 vcc vcc 0 dc=2.5
 vbias2 vb2 0 dc=1.6
-*is vb1 0 dc 0 ac 1
-is vb1 0 sin(0 150u 1e9)
+is vb1 0 dc 0 ac 1
+*is vb1 0 sin(0 150u 1e9)
 ib3 ve3 0 dc 4.5m ac 0
 ib4 ve4 0 dc 2m ac 0
 
 .op
-*.ac dec 100 1k 100gig
+.ac dec 100 1k 100gig
 .lstb mode=single vsource=vx
 .probe ac lstb(db) lstb(p)
 
@@ -34,9 +34,9 @@ ib4 ve4 0 dc 2m ac 0
 
 .noise v(vo) is
 
-.print inoise onoise
+*.print inoise onoise
 
-.tran 1p 5n
+*.tran 1p 5n
 
 
 .option post brief nomod ITLPZ=1000 FMAX=2E12
