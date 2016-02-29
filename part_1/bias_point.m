@@ -1,6 +1,8 @@
 close all
 clear all
 
+addpath('../matlab/');
+
 c = ee214b_defaults('sige_hbt', 273+25);
 
 v_cc = 2.5;
