@@ -10,9 +10,12 @@ t = evalsig(h,'TIME');
 vo = evalsig(h,'vo');
 
 
-figure;
+h = figure();
+set(h, 'Position', [100, 100, 800 600]);
 plot(t*1e9, vo);
 
 xlabel('Time (ns)');
 ylabel('Voltage (V)');
 title('Transient Response - 1GHz');
+
+print('-depsc','-r0','report/plots/part_m.eps')
