@@ -370,7 +370,7 @@ From this, the new closed loop bandwidth can be calculated as such:
 \end{equation}
 
 \begin{equation}
-  BW_{CL,C_F} = \frac{1}{2 \pi} \cdot \sqrt{\frac{1 + T_0}{ R_{in} C_{in,C_F} R_x C_x}} = 19.2Ghz
+  BW_{CL,C_F} = \frac{1}{2 \pi} \cdot \sqrt{\frac{1 + T_0}{ R_{in} C_{in,C_F} R_x C_x}} = 21.2Ghz
 \end{equation}
 
 Value of $C_F$ was tweaked from 37fF to 45fF in order to flatten the magnitude response. Approximately 0.1dB of peaking was observed in the response curve, and with 45fF it was completely flat. We noted that on the output noise plot there was a significant bump in noise around the 3dB frequency that could be reduced by increasing $C_F$ however this was not a specified goal of the design, so we chose to leave the value as-is.
