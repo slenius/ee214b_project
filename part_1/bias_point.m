@@ -87,7 +87,11 @@ pole.vo.f = pole.vo.w / (2 * pi);
 pole.vx.w = 1 / (r_x * c_x);
 pole.vx.f = pole.vx.w / (2 * pi);
 
-a = stage_0.gain * stage_1.gain;
+gbw = total_gain * pole.vi.f
+
+a_v3 = q3.gm * r_f / (1 + q3.gm * r_f);
+
+a = stage_0.gain * stage_1.gain * a_v3;
 f = -1/r_f;
 
 t = a * f;
@@ -101,7 +105,8 @@ pole.pm = pi - atan(pole.w_u / pole.vi.w) - atan(pole.w_u / pole.vx.w);
 pole.pm_deg = pole.pm * 180/pi;
 pole.f_u = pole.w_u / (2 * pi);
 
-a_v3 = q3.gm * r_f / (1 + q3.gm * r_f);
+midband_gain = a / (1+t) * stage_2.gain
+midband_gain_db = 20*log10(midband_gain)
 
 k = r_in * q1.gm * r_x * a_v3 / r_f;
 
@@ -127,9 +132,14 @@ w_o = f_o * 2 * pi;
 w_z = w_o / (sqrt(2) - (-real_pole/(2*pi) + imag_pole/(2*pi)) / w_o);
 c_z = 1 / (w_z * r_f);
 
-c_in_z = c_in + c_z;
-cl_3db_w = sqrt((1+k) / (r_in * c_in_z * r_x * c_x));
-cl_3db_f = cl_3db_w / (2 * pi);
+
+% bad analysis
+%c_in_z = c_in + c_z;
+%cl_3db_w = sqrt((1+k) / (r_in * c_in_z * r_x * c_x));
+%cl_3db_f = cl_3db_w / (2 * pi);
+
+% using dominant pole
+
 
 % part k - noise analysis
 

@@ -49,7 +49,7 @@ f_u_hand = 19.2e9;
 f_u_error = calc_err_pct(f_u_hand, t_mag_u_f);
 
 s = sprintf('Unity Gain Freq:\nHand: %0.1fGHz\nSpice: %0.1fGHz\nError: %0.1f%%', f_u_hand/1e9, t_mag_u_f/1e9, f_u_error);
-text(1e8, 15, s)
+text(1e7, 15, s)
 
 pm_hand = 65.5;
 pm_spice = min(t_phase(t_mag>0)) +180
@@ -73,7 +73,7 @@ ylabel('Phase (degrees)'); xlabel('Frequency (Hz)');
 grid;
 
 s = sprintf('Phase Margin:\nHand: %0.1fdeg\nSpice: %0.1fdeg\nError: %0.1f%%', pm_hand, pm_spice, pm_error);
-text(1e8, -120, s)
+text(1e7, -120, s)
 
 plot([t_mag_u_f t_mag_u_f], [-1000 pm_spice-180], 'k--x')
 
@@ -105,7 +105,7 @@ grid;
 
 
 s = sprintf('Closed Loop 3dB:\nSpice: %0.1fGHz', a_cl_3db_spice/1e9);
-text(1e8, 30, s)
+text(1e7, 30, s)
 
 subplot(2,1,2);
 semilogx(f,vo_phase,'linewidth',2);

@@ -30,7 +30,7 @@ subplot(2,1,1);
 semilogx(f,T_mag,'linewidth',2);
 hold on;
 semilogx([min(f) max(f)], [0 0],'r');
-title('Amplifier T(jw) Magnitude and Phase');
+title('Amplifier T(jw) Magnitude and Phase - Sketch');
 
 plot([f_u_hand f_u_hand], [-100 0], 'k--x')
 

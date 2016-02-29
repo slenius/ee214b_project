@@ -53,9 +53,100 @@
 % deviations in the calculated voltages, g m and rpi.
 
 \section{Bias Calculations}
-\par
 
-Bias calculations go here.\par
+
+\subsection{Node Definitions}
+\begin{flushleft}
+
+$V_{C1} = V_{E2} = V_{W}$
+
+$V_{B3} = V_{C2} = V_{B4} = V_{X}$
+
+$V_{E3} = V_{Y}$
+
+$V_{E4} = V_{Z}$
+
+$V_{B1} = V_{IN}$
+
+\end{flushleft}
+
+\subsection{Bias Voltages}
+
+\begin{equation}
+  V_{IN} = V_{BE} = 0.8V
+\end{equation}
+
+\begin{equation}
+  V_{B2} = 1.6V => V_{W} = 1.6 - V_{BE} = 0.8V
+\end{equation}
+
+Assuming Ib = 0
+\begin{equation}
+  V_{IN} = V_{Y} => V_{Y} = 0.8V
+\end{equation}
+
+\begin{equation}
+  V_{X} = V_{Y} + V_{BE} => V_{X} = 1.6V
+\end{equation}
+
+\begin{equation}
+  V_{Z} = V_{X} - V_{BE} => V_{Z} = 0.8V
+\end{equation}
+
+\begin{equation}
+  V_{O} = V_{CC} - I{B4} R_{C4} => V_{O} = 2.3V
+\end{equation}
+
+\begin{equation}
+  I_{C1} = I_{C2} = \frac{V_{CC} - V_{B3}}{R_{C2}} = 3.6mA
+\end{equation}
+
+\begin{equation}
+  I_{C3} = I_{Bias3} = 4.5mA
+\end{equation}
+
+\begin{equation}
+  I_{C4} = I_{Bias4} = 2.0mA
+\end{equation}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+Parameter & Hand Calc &  Spice Value & Percent Error\% \\
+\hline
+$V_{IN}$ & 0.800V &  0.801V &  -0.12\%\\
+\hline
+$V_{W}$ & 0.800V &  0.798V &  0.25\%\\
+\hline
+$V_{X}$ & 1.600V &  1.605V &  -0.31\%\\
+\hline
+$V_{Y}$ & 0.800V &  0.804V &  -0.49\%\\
+\hline
+$V_{Z}$ & 0.800V &  0.813V &  -1.50\%\\
+\hline
+$V_{O}$ & 2.300V &  2.301V &  -0.04\%\\
+\hline
+$gm_{1}$ & 120.7mS & 120.7mS &  -0.03\%\\
+\hline
+$gm_{2}$ & 120.3mS & 120.3mS &  -0.03\%\\
+\hline
+$gm_{3}$ & 152.3mS & 152.3mS &  0.02\%\\
+\hline
+$gm_{4}$ & 70mS & 70mS &  -0.04\%\\
+\hline
+$r\pi_{1}$ & 2.14k$\Omega$ & 1.875k$\Omega$ &  14.3\%\\
+\hline
+$r\pi_{2}$ & 2.14k$\Omega$ & 1.883k$\Omega$ &  13.64\%\\
+\hline
+$r\pi_{3}$ & 1.71k$\Omega$ & 1.502k$\Omega$ &  13.84\%\\
+\hline
+$r\pi_{4}$ & 3.85k$\Omega$ & 3.515k$\Omega$ &  9.5\%\\
+\hline
+\end{tabular}
+\end{table}
+
+
 
 %\begin{figure}[H]
 %	\footnotesize
@@ -69,8 +160,106 @@ Bias calculations go here.\par
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Calculations c-f, pages 3-6
 
-\section{Calculation of Key Design Parameters}
+\section{Calculations and plots for part I (c) through (f)}
 
+After applying two-port analysis for loop gain calculation:
+
+\begin{equation}
+  a = (r_{\pi1} || R_{F}) \cdot (-gm_1 R_{C2} ) \cdot \frac{gm_3 R_F}{1 + gm_3 R_F} = -5.486k\Omega
+\end{equation}
+
+\begin{equation}
+  f = \frac{-1}{R_F} = -4.5mS
+\end{equation}
+
+\begin{equation}
+  t = a f = 26.57 = 28.48dB
+\end{equation}
+
+Mid-band transresistance of the overall amplifier:
+
+\begin{equation}
+  A_{CL, MidBiand} = \frac{a}{1 + t} \cdot \frac{-gm_4 R_{C4}}{1 + gm_4 R_{E4}} = 724 = 57.2dB
+\end{equation}
+
+Calculating node resistances and capacitances:
+
+\begin{equation}
+  C_X = C_{\mu 2} + \frac{C_{\pi 3}}{1 + gm_3 R_F} + \frac{C_{\pi 4}}{1+gm_4 R_{E4}} + C_{\mu 3} + C_{\mu 4} (1 + gm_4 R_{C4}) = 99fF
+\end{equation}
+
+\begin{equation}
+  R_X = R_{C2} || r_{\pi 3}(1+gm_3 R_F) || r_{\pi4}(1+gm_4 R_{E4}) = 241\Omega \approx R_{C2}
+\end{equation}
+
+\begin{equation}
+  C_{IN} = C_D + C_{\pi1} + C_{\mu1} = 324fF
+\end{equation}
+
+\begin{equation}
+  R_{IN} = r_{\pi1} || R_F = 199\Omega \approx R_F
+\end{equation}
+
+Calculation of most significant poles:
+
+\begin{equation}
+  f_{IN} = \frac{1}{2 \pi R_{IN} C_{IN}} = 2.46GHz
+\end{equation}
+
+\begin{equation}
+  f_{X} = \frac{1}{2 \pi R_{X} C_{X}} = 6.63GHz
+\end{equation}
+
+Calculation of $T(j\omega)$ Unity Gain Frequency and Phase Margin
+
+\begin{equation}
+  f_{u} = \sqrt{T_0 * f_{IN} * f_{X}} = 20.8GHz
+\end{equation}
+
+\begin{equation}
+  PM = 180\textdegree  - atan(\frac{f_u}{f_{IN}}) - atan(\frac{f_u}{f_{X}}) = 24.4\textdegree
+\end{equation}
+
+{\centering
+	\includegraphics[width=0.8\textwidth]{plots/part_e.eps}
+\par}
+
+The low value of phase margin suggests that significant peaking will be observed.
+
+\begin{equation}
+  a(s) = (R_{IN} || \frac{1}{sC_{IN}}) \cdot gm_1 \cdot (R_X || \frac{1}{sC_X}) \cdot \frac{gm_3 R_f}{1 + gm_3 R_F}
+\end{equation}
+
+\begin{equation}
+  \frac{v_{E3}}{i_s} = \frac{a(s)}{1 + a(s) f}
+\end{equation}
+
+\begin{equation}
+  \frac{v_{E3}}{i_s} = \frac{a(s)}{1 + a(s) f}
+\end{equation}
+
+\begin{equation}
+  f_{0} = \sqrt{(1+T_0) * f_{IN} * f_{X}} \approx f_u
+\end{equation}
+
+\begin{equation}
+  Q = \frac{\sqrt{(1 + T_0) \omega_{X} \omega_{IN}}}{\omega_X + \omega_{IN}} = 2.29
+\end{equation}
+
+
+
+
+
+
+
+
+
+\pagebreak
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Old
+\section{Old}
 \textbf{Choice of L}
 
 \begin{itemize}
@@ -255,90 +444,6 @@ For simpler hand calculations, following approximations are used.
 	Power=(Vdd-Vss)(Id_1+Id_4+Id_7+Id_{10})+(\frac{Vdd^{2}}{R1+R2})+(\frac{Vss^{2}}{R3+R4})
 \end{equation}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|l|l|l|}
-\hline
-\textbf{Bias Generator} & Hand calc & Spice & \%Error & Reason for error \\
-\hline
-$V_{BiasN}$ & -1.300V &  -1.279V &  -1.6\% &  Startup circuit bias \\
-\hline
-$V_{BiasP}$ & 1.300V &  1.319V & 1.5\%  &  Startup circuit bias \\
-\hline
-  &   &   &   &   \\
-\hline
-\textbf{Stage1} & Hand calc & Spice & \%Error & Reason for error \\
-\hline
-$Id_1$ & 18.3$\mu$A  &  20.9$\mu$A &  14.2\% &  Bias generator error \\
-\hline
-Vx & 1.300V  & 1.275V  & -1.9\%  &   \\
-\hline
-$A_X$ & 10k$\Omega$  & 9.86k$\Omega$  & -1.4\%  & Finite $MN_1$ and $MP_3$ output resistance  \\
-\hline
-$gm_2$ &  210$\mu$S & 268$\mu$S  & 27.6\%  & Bias generator error  \\
-\hline
-$\tau_{IN} $ & 1.11ns  &   &   &   \\
-\hline
-$\tau_X $ & 420ps  &   &   &   \\
-\hline
-  &   &   &   &   \\
-\hline
-\textbf{Stage2} & Hand calc & Spice & \%Error & Reason for error \\
-\hline
-$Id_4$ &  36.75$\mu$A & 43.5$\mu$A & 18.4\%  &   \\
-\hline
-$V_W$ & 1.496V & 1.450V  & -3.2\%  &   \\
-\hline
-$V_Y$ & -1.550V  & -1.418V  &  -8.5\% & Imbalance between $MP_4$ and $MN_6$ current \\
-\hline
-$gm_4$ & 105$\mu$S  &  120$\mu$S & 14.3\%  & Error in $V_Y$ \\
-\hline
-$A_Y$ & -3.0  & -3.25  & 8.3\%  & Error estimating $gm_4$  \\
-\hline
-$\tau_Y$ & 306ps  &   &   &   \\
-\hline
-  &   &   &   &   \\
-\hline
-\textbf{Stage3} & Hand calc & Spice & \%Error & Reason for error \\
-\hline
-$Id_7$ & 10.25$\mu$A  & 22.9$\mu$A  & 123\%  & Error in $V_Y$ plus finite output resistance  \\
-\hline
-$V_Z$ & 1.364 & 1.102V  & -19.2\%  & Error in $V_Y$   \\
-\hline
-$gm_7$ & 45$\mu$S  & 79$\mu$S  & 75.5\%  &  Error in $Id_7$ \\
-\hline
-$gm_8$ & 31.2$\mu$S & 51$\mu$S   &  63.5\% &  Error in $Id_7$  \\
-\hline
-$A_Z$ & 1.414  & 1.440  & 1.8\%  &  The benefit of ratiometric design \\
-\hline
-$\tau_Z$ & 1.92ns  &   &   &  Error in estimating $gm_{8}$ \\
-\hline
-  &   &   &   &   \\
-\hline
-\textbf{Stage4} & Hand calc & Spice & \%Error & Reason for error \\
-\hline
-$Id_{10}$ & 2.96$\mu$A  &  30.43$\mu$A &  928\% & $MN_{10}$'s large width is a big error amplifier  \\
-\hline
-$V_{OUT}$ & 0.299 & -0.117V  &  -139\% &   \\
-\hline
-$Vt_{10}$ & 0.999  & 1.034V  &  3.5\% &   \\
-\hline
-$gm_{10}$ & 91.1$\mu$S   &  327$\mu$S  & 258\%  &   \\
-\hline
-$gmb_{10}$ & 13.0$\mu$S  &  55.1$\mu$S  & 323\%  &   \\
-\hline
-$A_{OUT}$ & 0.71 & 0.75  & 5.6\%  &   \\
-\hline
-$\tau_{OUT}$ & 1.63ns  &   &   & Error in estimating $gm_{10}$  \\
-
-\hline
-Total Power &  578$\mu$W & 1.065mW  & 84\%  & Not accounting for bias gen  \\
-\hline
-Total Gain & 30.04k$\Omega$  & 34.66k$\Omega$   &  15.5\% & Error in estimating gm  \\
-\hline
-\end{tabular}
-\end{table}
-
 \pagebreak
 page
 \pagebreak
@@ -366,18 +471,18 @@ page
     ******   pole/zero analysis
     input =  0:is          output = v(vo)
     poles (rad/sec)                 poles ( hertz)
-    real            imag            real            imag            
-    -33.1562m       0.              -5.27698m       0.              
-    -22.9305g       113.319g        -3.64950g       18.0353g        
-    -22.9305g       -113.319g       -3.64950g       -18.0353g       
-    -473.782g       0.              -75.4048g       0.              
-    -1.12800t       0.              -179.526g       0.              
-    -1.18039t       0.              -187.865g       0.              
+    real            imag            real            imag
+    -33.1562m       0.              -5.27698m       0.
+    -22.9305g       113.319g        -3.64950g       18.0353g
+    -22.9305g       -113.319g       -3.64950g       -18.0353g
+    -473.782g       0.              -75.4048g       0.
+    -1.12800t       0.              -179.526g       0.
+    -1.18039t       0.              -187.865g       0.
 
     zeros (rad/sec)                 zeros ( hertz)
-    real            imag            real            imag            
-    0.              0.              0.              0.              
-    -1.10418t       0.              -175.736g       0.   
+    real            imag            real            imag
+    0.              0.              0.              0.
+    -1.10418t       0.              -175.736g       0.
 
 \end{verbatim}
 

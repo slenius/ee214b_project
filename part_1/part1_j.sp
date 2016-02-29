@@ -26,7 +26,7 @@ ib3 ve3 0 dc 4.5m ac 0
 ib4 ve4 0 dc 2m ac 0
 
 .op
-.ac dec 100 1k 100gig
+.ac dec 100 1k 1000gig
 .lstb mode=single vsource=vx
 .probe ac lstb(db) lstb(p)
 
