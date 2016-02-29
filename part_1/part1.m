@@ -27,9 +27,9 @@ t_180_spice = f(t_180_spice_index);
 % plot T(s) - part g
 
 % in db
-t_hand = 28.74;
-f_hand = -46.84;
-a_hand = 75.59;
+t_hand = 28.4;
+
+
 a_cl_hand = 57.2056;
 
 t_spice = t_mag(1);
@@ -59,7 +59,7 @@ f_u_error = calc_err_pct(f_u_hand, t_u_spice);
 s = sprintf('Unity Gain Freq:\nHand: %0.1fGHz\nSpice: %0.1fGHz\nError: %0.1f%%', f_u_hand/1e9, t_u_spice/1e9, f_u_error);
 text(1e8, 15, s)
 
-pm_hand = 24.06;
+pm_hand = 24.4;
 pm_spice = t_phase(unity_index) + 180;
 pm_error = calc_err_pct(pm_hand, pm_spice);
 

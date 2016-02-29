@@ -4,6 +4,7 @@ close all
 addpath('/usr/class/ee214/matlab/hspice_toolbox');
 
 h = loadsig('part1_j.ac0');
+%h = loadsig('part1_m.ac0');
 lssig(h)
 
 f = evalsig(h,'HERTZ');
@@ -35,7 +36,7 @@ subplot(2,1,1);
 semilogx(f,t_mag,'linewidth',2);
 hold on;
 semilogx([min(f) max(f)], [0 0]);
-title('Amplifier T(jw) Magnitude and Phase - Compensated 57fF');
+title('Amplifier T(jw) Magnitude and Phase - Compensated 45fF');
 
 plot([t_mag_u_f t_mag_u_f], [-1000 0], 'k--x')
 ylim([-20, 40]);
@@ -45,7 +46,7 @@ ylim([-20, 40]);
 s = sprintf('Low Freq loop Gain:\nHand: %0.1fdB\nSpice: %0.1fdB\nError: %0.1f%%', t_hand, t_spice, t_error);
 text(min(f) * 10, 15, s)
 
-f_u_hand = 19.2e9;
+f_u_hand = 2.1218e+10
 f_u_error = calc_err_pct(f_u_hand, t_mag_u_f);
 
 s = sprintf('Unity Gain Freq:\nHand: %0.1fGHz\nSpice: %0.1fGHz\nError: %0.1f%%', f_u_hand/1e9, t_mag_u_f/1e9, f_u_error);
@@ -97,14 +98,14 @@ semilogx(f,vo_mag,'linewidth',2);
 hold on
 plot([a_cl_3db_spice a_cl_3db_spice], [-1000, vo_mag(1)-3], 'k--x')
 hold off
-title('Amplifier A(jw) Magnitude and Phase - Compensated 57fF');
+title('Amplifier A(jw) Magnitude and Phase - Compensated 45fF');
 ylim([0, 70]);
 xlim([min(f),max(f)]);
 ylabel('Magnitude (dB)'); xlabel('Frequency (Hz)');
 grid;
 
-
-s = sprintf('Closed Loop 3dB:\nSpice: %0.1fGHz', a_cl_3db_spice/1e9);
+a_cl_3db_err = calc_err_pct(f_u_hand, a_cl_3db_spice);
+s = sprintf('Closed Loop 3dB:\nHand: %0.1fGHz\nSpice: %0.1fGHz\nError: %0.1f%%', f_u_hand/1e9, a_cl_3db_spice/1e9, a_cl_3db_err);
 text(1e7, 30, s)
 
 subplot(2,1,2);
