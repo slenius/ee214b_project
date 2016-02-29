@@ -94,7 +94,7 @@ Assuming Ib = 0
 \end{equation}
 
 \begin{equation}
-  V_{O} = V_{CC} - I{B4} R_{C4} => V_{O} = 2.3V
+  V_{O} = V_{CC} - I_{B4} R_{C4} => V_{O} = 2.3V
 \end{equation}
 
 \begin{equation}
@@ -153,7 +153,7 @@ $r\pi_{4}$ & 3.85k$\Omega$ & 3.515k$\Omega$ &  9.5\%\\
 
 \section{Calculations and plots for part I (c) through (f)}
 
-After applying two-port analysis for loop gain calculation:
+(c) Applying two-port analysis for loop gain calculation gives:
 
 \begin{equation}
   a = (r_{\pi1} || R_{F}) \cdot (-gm_1 R_{C2} ) \cdot \frac{gm_3 R_F}{1 + gm_3 R_F} = -5.486k\Omega
@@ -164,16 +164,21 @@ After applying two-port analysis for loop gain calculation:
 \end{equation}
 
 \begin{equation}
-  t = a f = 26.57 = 28.48dB
+  T_{0} = a f = 26.57 = 28.48dB
 \end{equation}
 
 Mid-band transresistance of the overall amplifier:
 
 \begin{equation}
-  A_{CL, MidBiand} = \frac{a}{1 + t} \cdot \frac{-gm_4 R_{C4}}{1 + gm_4 R_{E4}} = 724 = 57.2dB
+  A_{CL, MidBiand} = \frac{a}{1 + T_0} \cdot \frac{-gm_4 R_{C4}}{1 + gm_4 R_{E4}} = 724 = 57.2dB
 \end{equation}
 
-Calculating node resistances and capacitances:
+\newpage
+(d) Calculating node resistances and capacitances to estimate the poles at the nodes:
+
+At node X, $C_{\pi 3}, C_{\pi 4}, r_{\pi 3}$ and $r_{\pi 4}$ will be bootstrapped due to the presence of emitter degeneration resistances.
+
+Miller approximation was applied to $C_{\mu 4}$
 
 \begin{equation}
   C_X = C_{\mu 2} + \frac{C_{\pi 3}}{1 + gm_3 R_F} + \frac{C_{\pi 4}}{1+gm_4 R_{E4}} + C_{\mu 3} + C_{\mu 4} (1 + gm_4 R_{C4}) = 99fF
@@ -191,7 +196,7 @@ Calculating node resistances and capacitances:
   R_{IN} = r_{\pi1} || R_F = 199\Omega \approx R_F
 \end{equation}
 
-Calculation of most significant poles:
+The two most significant poles are given by:
 
 \begin{equation}
   f_{IN} = \frac{1}{2 \pi R_{IN} C_{IN}} = 2.46GHz
@@ -201,7 +206,8 @@ Calculation of most significant poles:
   f_{X} = \frac{1}{2 \pi R_{X} C_{X}} = 6.63GHz
 \end{equation}
 
-Calculation of $T(j\omega)$ Unity Gain Frequency and Phase Margin
+\newpage
+(e) Calculation of $T(j\omega)$ Unity Gain Frequency and Phase Margin
 
 \begin{equation}
   f_{u} = \sqrt{T_0 * f_{IN} * f_{X}} = 20.8GHz
@@ -217,29 +223,63 @@ Calculation of $T(j\omega)$ Unity Gain Frequency and Phase Margin
 
 The low value of phase margin suggests that significant peaking will be observed.
 
+\newpage
+(f) Assuming a two pole loop response, the closed loop transimpedance and pole locations are given by:
+
 \begin{equation}
   a(s) = (R_{IN} || \frac{1}{sC_{IN}}) \cdot gm_1 \cdot (R_X || \frac{1}{sC_X}) \cdot \frac{gm_3 R_f}{1 + gm_3 R_F}
 \end{equation}
 
 \begin{equation}
-  \frac{v_{E3}}{i_s} = \frac{a(s)}{1 + a(s) f}
+  T(s) = \frac{T_{0}}{(1 + \frac{s}{\omega_X})(1+\frac{s}{\omega_{IN}})}
 \end{equation}
 
 \begin{equation}
-  f_{0} = \sqrt{(1+T_0) * f_{IN} * f_{X}} \approx f_u
+  A(s) = \frac{v_{E3}}{i_s} = \frac{a(s)}{1 + a(s) f} = \frac{1}{f} \cdot \frac{T(s)}{1 + T(s)}
+\end{equation}
+Simplifying the above equation gives
+
+\begin{equation}
+  A(s) = \frac{A_0}{1 + \frac{s}{\omega_0 Q} + \frac{s^{2}}{\omega_0^{2}}} 
+\end{equation}
+ 
+where,
+
+\begin{equation}
+  \omega_{0} = \sqrt{(1+T_0) * \omega_{IN} * \omega_{X}} 
 \end{equation}
 
 \begin{equation}
-  Q = \frac{\sqrt{(1 + T_0) \omega_{X} \omega_{IN}}}{\omega_X + \omega_{IN}} = 2.29
+  Q = \frac{\sqrt{(1 + T_0) \omega_{X} \omega_{IN}}}{\omega_X + \omega_{IN}}
 \end{equation}
 
-\pagebreak
+Substituting the values of $T_0$ and $\omega_X$ and $\omega_{IN}$ from parts (c) and (d) gave 
 
-(page intentionally left blank)
+\begin{equation}
+  \omega_{0} = 133.32 G rad s^{-1}
+% To Do: Add value of w_0
+\end{equation}
 
-\pagebreak
+\begin{equation}
+  Q = 2.29
+\end{equation}
 
-(page intentionally left blank)
+Once $Q$ and $\omega_0$ are obtained, the poles are obtained by solving the equation:
+
+\begin{equation}
+  \frac{s^{2}}{\omega_0^{2}} + \frac{s}{\omega_0 Q} + 1 = 0
+\end{equation}
+
+The real and imaginary pole locations obtained are 
+\begin{equation}
+  Re(\frac{s}{2 \pi}) = -4.705 GHz
+\end{equation}
+
+\begin{equation}
+  Im(\frac{s}{2 \pi}) = 20.69 GHz
+\end{equation}
+Hence the pole locations are (-4.705 $\pm$ 20.69) GHz
+
 
 \pagebreak
 
@@ -345,9 +385,9 @@ Value of $C_F$ was tweaked from 37fF to 45fF in order to flatten the magnitude r
 
 \section{Bode Plots and PZ Outputs - Part I(j)}
 
-{\centering
+%{\centering
 	\includegraphics[width=0.8\textwidth]{plots/part_j_t.eps}
-\par}
+%\par}
 
 \pagebreak
 
