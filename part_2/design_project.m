@@ -5,7 +5,7 @@ load 180nch.mat
 load 180pch.mat
 
 design = struct();
-constraints = ee214b_defaults('mos180');
+constraints = ee214b_defaults('mos180', 300);
 
 constraints.vdd = 1.8;
 constraints.overall_gain_cl = 720;
