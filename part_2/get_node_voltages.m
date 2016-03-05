@@ -15,20 +15,24 @@ function d = get_node_voltages(d, c)
     %d.v_y = c.v_c - d.m3.vgs;
     
    
-    d.m1.vds = d.v_x - d.v_in;
-    d.m2.vds = d.v_y - d.v_z;
-    d.m3.vds = d.v_w - d.v_y;
-    d.m4.vds = c.vdd - d.v_o;
+    d.m1.vds = min(1.8, max(d.v_x - d.v_in, 0));
+    d.m1.vsb = min(1.8, max(d.v_in, 0));
     
-    d.mb1.vds = d.v_in;
-    d.mb2.vds = d.v_z;
-    d.mb3.vds = d.v_o;
+    d.m2.vds = min(1.8, max(d.v_y - d.v_z, 0));
+    d.m2.vsb = min(1.8, max(d.v_z, 0));
+    
+    d.m3.vds = min(1.8, max(d.v_w - d.v_y, 0));
+    d.m3.vsb = min(1.8, max(d.v_y, 0));
+    
+    d.m4.vds = min(1.8, max(c.vdd - d.v_o, 0));
+    d.m4.vsb = min(1.8, max(d.v_o, 0));
+    
+    d.mb1.vds = min(1.8, max(d.v_in, 0));
+    d.mb2.vds = min(1.8, max(d.v_z, 0));
+    d.mb3.vds = min(1.8, max(d.v_o, 0));
     
     if(d.v_in < 0 || d.v_in > c.vdd)
        warning('Vin out of range!'); 
     end
     
-    
-
-
 end

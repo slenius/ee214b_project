@@ -1,10 +1,10 @@
-clc;
+
 clear all;
 close all;
-addpath('/usr/class/ee214/matlab/hspice_toolbox');
+%addpath('/usr/class/ee214/matlab/hspice_toolbox');
 
-h = loadsig('ckt.ac0');
-lssig(h)
+h = loadsig('matlab.ac0');
+%lssig(h)
 
 f = evalsig(h,'HERTZ');
 t_mag = evalsig(h,'lstb_db');
@@ -16,7 +16,7 @@ onoise = evalsig(h,'outnoise');
 vo_cmplx = evalsig(h,'n_o');
 
 vo_mag = 20 * log10(abs(vo_cmplx));
-vo_phase = 180/pi * unwrap(angle(vo_cmplx)) + 180;
+vo_phase = 180/pi * unwrap(angle(vo_cmplx));
 
 
 unity_index = find(abs(t_mag) == min(abs(t_mag)));
@@ -40,7 +40,7 @@ t_spice = t_mag(1);
 t_error = calc_err_pct(t_hand, t_spice);
 
 h = figure();
-set(h, 'Position', [100, 100, 800 600]);
+set(h, 'Position', [200, 200, 800 600]);
 
 subplot(2,1,1);
 semilogx(f,t_mag,'linewidth',2);
@@ -111,7 +111,7 @@ a_cl_3db_spice = min(f(vo_mag<=vo_mag(1)-3));
 
 
 h = figure();
-set(h, 'Position', [100, 100, 800 600]);
+set(h, 'Position', [150, 150, 800 600]);
 subplot(2,1,1);
 semilogx(f,vo_mag,'linewidth',2);
 hold on

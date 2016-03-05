@@ -1,5 +1,7 @@
 function d = get_time_constants(d,c )
-    
+    if not(isfield(d, 'c_f'))
+        d.c_f = 0;
+    end
     d.t_in.r = parallel_r(1/d.m1.gm_prime, d.r_f);
     d.t_in.c = c.c_d + d.m1.cdd  + d.m1.css + d.c_f + d.mb1.cdd;
 
@@ -23,6 +25,9 @@ function d = get_time_constants(d,c )
         
     d.poles_w = -1 .* [d.t_in.w d.t_w.w d.t_x.w d.t_y.w d.t_o.w];
     d.poles_f = d.poles_w ./ (2 * pi);
+    
+    d.t_sum = d.t_in.t + d.t_w.t + d.t_x.t + d.t_y.t + d.t_o.t;
+    d.bw = (1 + d.t_0) / (2 * pi * d.t_sum);
     
 end
 
