@@ -12,19 +12,19 @@ fprintf(f, '.include /usr/class/ee214/hspice/ee214_hspice.sp\n');
 fprintf(f, 'rc2  n_vdd n_x   %0.1f\n', d.r_c2);
 fprintf(f, 'rc4  n_vdd n_o   %0.1f\n', d.r_c4);
 fprintf(f, 're4  n_z   n_ze  %0.1f\n', d.r_e4);
-fprintf(f, 'rf   n_yx  n_i   %0.1f\n', f.r_f);
+fprintf(f, 'rf   n_yx  n_i   %0.1f\n', d.r_f);
 
 
 fprintf(f, 'cl        n_o   0   20f\n');
 fprintf(f, 'cd        n_i   0   200f\n');
 fprintf(f, 'c_magic   n_ze  0   1.0\n');
-fprintf(f, 'cf        n_yx  n_i %0.1ff\n', d.c_f * 1e15);
+fprintf(f, 'cf        n_yx  n_i %0.1ff\n', 0);
 
 
-fprintf(f, 'm1    n_w   n_i   0     0     nmos214       w=%du l=0.18u\n', d.m1.w);
-fprintf(f, 'm2    n_x   n_b   n_w   0     nmos214       w=%du l=0.18u\n', d.m1.w);
-fprintf(f, 'm3    n_vdd n_x   n_y   0     nmos214       w=%du l=0.18u\n', d.m1.w);
-fprintf(f, 'm4    n_o   n_x   n_z   0     nmos214       w=%du l=0.18u\n', d.m1.w);
+fprintf(f, 'm1    n_w   n_i   0     0     nmos214       w=%0.1fu l=0.18u\n', d.m1.w);
+fprintf(f, 'm2    n_x   n_b   n_w   0     nmos214       w=%0.1fu l=0.18u\n', d.m1.w);
+fprintf(f, 'm3    n_vdd n_x   n_y   0     nmos214       w=%0.1fu l=0.18u\n', d.m1.w);
+fprintf(f, 'm4    n_o   n_x   n_z   0     nmos214       w=%0.1fu l=0.18u\n', d.m1.w);
 
 
 fprintf(f, 'vdd   n_vdd   0     1.8\n');
