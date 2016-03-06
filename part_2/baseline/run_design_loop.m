@@ -1,7 +1,5 @@
 function d = run_design_loop(d, c, nch, pch)
     
-    d.r_c2 = c.r_c2;
-    d.r_c4 = c.r_c4;
     d.r_e4 = c.r_e4;
     d.v_b = 1.8;
 

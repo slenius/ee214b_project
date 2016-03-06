@@ -2,18 +2,18 @@
 
 * ee114 device models
 .include /usr/class/ee214/hspice/ee214_hspice.sp
-rc2  n_vdd n_x   250.0
-rc4  n_vdd n_o   100.0
+rc2  n_vdd n_x   505.9
+rc4  n_vdd n_o   168.8
 re4  n_z   n_ze  15.0
-rf   n_yx  n_i   288.0
+rf   n_yx  n_i   162.0
 cl        n_o   0   20f
 cd        n_i   0   200f
 c_magic   n_ze  0   1.0
 cf        n_yx  n_i 0.0f
-m1    n_w   n_i   0     0     nmos214       w=49.3u l=0.18u
-m2    n_x   n_b   n_w   0     nmos214       w=49.3u l=0.18u
-m3    n_vdd n_x   n_y   0     nmos214       w=49.3u l=0.18u
-m4    n_o   n_x   n_z   0     nmos214       w=49.3u l=0.18u
+m1    n_w   n_i   0     0     nmos214       w=72.5u l=0.18u
+m2    n_x   n_b   n_w   0     nmos214       w=72.5u l=0.18u
+m3    n_vdd n_x   n_y   0     nmos214       w=72.5u l=0.18u
+m4    n_o   n_x   n_z   0     nmos214       w=72.5u l=0.18u
 vdd   n_vdd   0     1.8
 vb    n_b     0     1.8
 vx    n_y     n_yx  0

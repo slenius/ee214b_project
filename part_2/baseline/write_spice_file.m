@@ -18,7 +18,7 @@ fprintf(f, 'rf   n_yx  n_i   %0.1f\n', d.r_f);
 fprintf(f, 'cl        n_o   0   20f\n');
 fprintf(f, 'cd        n_i   0   200f\n');
 fprintf(f, 'c_magic   n_ze  0   1.0\n');
-fprintf(f, 'cf        n_yx  n_i %0.1ff\n', 0);
+fprintf(f, 'cf        n_yx  n_i %0.1ff\n', d.c_f*1e15);
 
 
 fprintf(f, 'm1    n_w   n_i   0     0     nmos214       w=%0.1fu l=0.18u\n', d.m1.w);

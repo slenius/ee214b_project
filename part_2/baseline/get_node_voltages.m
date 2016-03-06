@@ -11,7 +11,7 @@ function d = get_node_voltages(d, c)
     min_vds = 3 * c.v_t;
    
     d.m1.vds = clamp(d.v_w, c.vdd, min_vds);
-    d.m1.vsb = 0
+    d.m1.vsb = 0;
     
     d.m2.vds = clamp(d.v_x - d.v_w, c.vdd, min_vds);
     d.m2.vsb = clamp(d.v_w, c.vdd, 0);

@@ -12,6 +12,8 @@ constraints = initialize_constraints();
 %constraints.gm_id(2) = 5;
 design = initialize_trans(design, constraints);
 
+
+
 for i = 1:5
     fprintf('Loop %d...\n', i);
     design = run_design_loop(design, constraints, nch, pch);
@@ -26,5 +28,5 @@ run_spice();
 
 design = get_spice(design, constraints);
 
-d = design;
+d = design
 c = constraints;

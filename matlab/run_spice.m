@@ -11,7 +11,9 @@ end
 
 spicefile = 'matlab.sp';
 
+delete('matlab.ac0');
 cmd = [lic hspice spicefile];
+
 
 system(cmd);
 

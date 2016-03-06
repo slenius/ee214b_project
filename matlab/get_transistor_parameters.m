@@ -1,8 +1,8 @@
-function m = get_transistor_parameters(m, data)
+function m = get_transistor_parameters(m, data, vsbinit)
 
 % intializing for looping
 if not(isfield(m, 'vsb'))
-    m.vsb = 0;
+    m.vsb = vsbinit;
 end
 if not(isfield(m, 'vds'))
     m.vds = 0.9;
@@ -33,11 +33,9 @@ if length(id_w) ~= 1
 else
     m.w = m.id / id_w;
 end
-    
-vt_vec = [0.4851 0.5117 0.5371 0.5616 0.5852 0.6081 0.6303 0.6518 0.6728 0.6933 0.7132];
-vsb_vec = 0:0.1:1;
-m.vt = interp1(vsb_vec, vt_vec, m.vsb);
-%m.vt = m.gm * lookup(data, 'VT_GM', 'GM_ID', m.gm_id, 'L', m.l, 'VSB', v_sb, 'VGS', v_sb:0.01:1.8);
+
+m.gds = m.gm * lookup(data, 'GDS_GM', 'GM_ID', m.gm_id, 'L', m.l);
+m.ro = 1 / m.gds; 
 
 maxw = 500;
 if(m.w > maxw)
@@ -52,10 +50,11 @@ m.css = m.cgg * lookup(data, 'CSS_CGG', 'GM_ID', m.gm_id, 'L', m.l);
 m.cdb = m.cdd - m.cgd;
 m.cgs = m.cgg - m.cgd;
 
-m.vt = lookup(data, 'VT', 'L', 0.18, 'VGS', m.vgs, 'VDS', m.vgs, 'VSB', m.vsb);
+m.vt = lookup(data, 'VT', 'L', m.l, 'VGS', m.vgs, 'VDS', m.vgs, 'VSB', m.vsb);
 
 m.vov = 2 / m.gm_id;
 m.vgs = m.vov + m.vt;
 
+m.intrinsic_gain = m.gm * m.ro;
 
 end

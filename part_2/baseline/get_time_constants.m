@@ -4,13 +4,15 @@ function d = get_time_constants(d,c )
     end
     
     d.t_in.r = d.r_f;
-    d.t_in.c = c.c_d + d.m1.cgg + d.c_f;
+    d.t_in.c = c.c_d + d.m1.cgs + d.c_f;
 
     d.t_x.r = d.r_c2 ;
-    d.t_x.c = d.m3.cgd + d.m2.cdd + d.m4.cgd * (1 + d.m4.gm*d.r_c4)...
-        + d.m3.cgs * (1 + (d.m3.gm * d.r_f / (1 + d.m3.gm * d.r_f)))...
-        + d.m4.cgs * (1 + (d.m4.gm * d.r_c4 / (1 + d.m4.gm * d.r_c4)))...
-        + d.c_f;
+    
+    Gm4 = d.m4.gm / (1 + d.m4.gm * d.r_e4);
+    
+    d.t_x.c = d.m3.cgd + d.m2.cdd + d.m4.cgd * (1 + Gm4*d.r_c4)...
+        + d.m3.cgs * (1 - (d.m3.gm * d.r_f / (1 + d.m3.gm * d.r_f)))...
+        + d.m4.cgs * (1 - (d.m4.gm * d.r_c4 / (1 + d.m4.gm * d.r_c4)));
     
     d.t_o.r = d.r_c4;
     d.t_o.c = c.c_l + d.m4.cgd * (1 + 1 / (d.m4.gm * d.r_c4)) + d.m4.cdb;
