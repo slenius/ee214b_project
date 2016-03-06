@@ -6,7 +6,7 @@ if findstr('google', hostname)
     hspice = '/usr/local/google/edatools/synopsys/hspice/H-2013.03/hspice/bin/hspice ';
 else
     lic = 'export LM_LICENSE_FILE="27000@cadlic0"; ';
-    hspice = '/usr/class/ee/synopsys/hspice/I-2013.12-SP2/hspice/ ';
+    hspice = '/usr/class/ee/synopsys/hspice/I-2013.12-SP2/hspice/bin/hspice ';
 end
 
 spicefile = 'matlab.sp';

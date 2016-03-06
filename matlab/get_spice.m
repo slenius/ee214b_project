@@ -10,7 +10,12 @@ t_phase = evalsig(h,'lstb_phase') - 180;
 inoise = evalsig(h,'innoise');
 onoise = evalsig(h,'outnoise');
 
-vo_cmplx = evalsig(h,'n_o');
+hostname = char(getHostName(java.net.InetAddress.getLocalHost));
+if findstr('google', hostname)
+  vo_cmplx = evalsig(h,'n_o');
+else
+  vo_cmplx = evalsig(h,'v_n_o');
+end
 
 vo_mag = 20 * log10(abs(vo_cmplx));
 vo_phase = 180/pi * unwrap(angle(vo_cmplx));
