@@ -59,7 +59,7 @@ text(min(f) * 10, 15, s)
 f_u_hand = 2.0861e10;
 f_u_error = calc_err_pct(f_u_hand, t_u_spice);
 
-s = sprintf('Unity Gain Freq:\nHand: %0.1fGHz\nSpice: %0.1fGHz\nError: %0.1f%%', f_u_hand/1e9, t_u_spice/1e9, f_u_error);
+s = sprintf('Unity Gain Freq:\nHand: %0.2fGHz\nSpice: %0.2fGHz\nError: %0.1f%%', f_u_hand/1e9, t_u_spice/1e9, f_u_error);
 text(1e8, 15, s)
 
 pm_hand = 24.4;
@@ -127,7 +127,7 @@ grid;
 s = sprintf('Closed Loop Gain:\nHand: %0.1fdB\nSpice: %0.1fdB\nError: %0.1f%%', a_cl_hand, a_cl_spice, a_cl_err);
 text(1e4, 30, s)
 
-s = sprintf('Closed Loop 3dB:\nSpice: %0.1fGHz', a_cl_3db_spice/1e9);
+s = sprintf('Closed Loop 3dB:\nSpice: %0.2fGHz', a_cl_3db_spice/1e9);
 text(1e8, 30, s)
 
 subplot(2,1,2);

@@ -16,8 +16,9 @@ fprintf(f, 'rf  n_ox  n_i   %0.1f\n', d.r_f);
 fprintf(f, '\n');
 fprintf(f, 'cl        n_o   0   %0.1ff\n', c.c_l*1e15);
 fprintf(f, 'cd        n_i   0   %0.1ff\n', c.c_d*1e15);
-fprintf(f, 'c_magic_0 n_z   0   1.0\n');
 fprintf(f, 'cf        n_ox  n_i %0.1ff\n', d.c_f*1e15);
+fprintf(f, 'c_magic_0 n_z   0   1.0\n');
+fprintf(f, 'c_magic_1 n_b   0   1.0\n');
 
 fprintf(f, '\n');
 fprintf(f, 'm1    n_x   n_g   n_i   0     nmos214       w=%0.1fu l=%0.2fu\n', d.m1.w, d.m1.l);
@@ -34,13 +35,20 @@ fprintf(f, '\n');
 fprintf(f, 'vdd   n_vdd   0     %0.1f\n', c.vdd);
 fprintf(f, 'vg    n_g     0     %0.3f\n', d.v_g);
 fprintf(f, 'vc    n_c     0     %0.3f\n', d.v_c);
-fprintf(f, 'vb    n_b     0     %0.3f\n', d.v_b);
 fprintf(f, 'vx    n_o     n_ox  0\n');
 
 fprintf(f, 'is    n_i     0   DC=0  AC=1\n');
 
+d.mb4.id = d.mb3.id / 20;
+d.mb4.w = d.mb3.w / 20;
+d.mb4.l = d.mb3.l;
+
+fprintf(f, 'ib    n_vdd   n_b %0.3fu\n', d.mb4.id*1e6);
+fprintf(f, 'mb4   n_b     n_b   0     0     nmos214       w=%0.1fu l=%0.2fu\n', d.mb4.w, d.mb4.l);
+
+
 fprintf(f, '.op\n');
-fprintf(f, '.ac dec 1000 1e6 1000e9\n');
+fprintf(f, '.ac dec 1000 1e3 1000e9\n');
 fprintf(f, '.lstb mode=single vsource=vx\n');
 fprintf(f, '.probe ac lstb(db) lstb(p)\n');
 fprintf(f, '.pz v(n_o) is\n');

@@ -8,9 +8,11 @@ function  d = get_gm_rf_from_noise(d, c )
     d.noise.m1   = c.noise(1) ;
     d.noise.mb1  = c.noise(2) ;
     
-    d.m1.gm = d.noise.m1/(4*c.k*c.T*c.gamma) ;
-    d.mb1.gm = d.noise.mb1/(4*c.k*c.T*c.gamma) ;
+    d.m1.gm = d.noise.m1/(4*c.k*c.T*c.gamma);
+    d.mb1.gm = d.noise.mb1/(4*c.k*c.T*c.gamma);
 
+    d.m1.id = d.m1.gm / d.m1.gm_id;
+    d.mb1.id = d.mb1.gm / d.mb1.gm_id;
 
     %d.noise.r_f  = constraints.noise(1) ;
     %d.noise.m1   = constraints.noise(2) ;
