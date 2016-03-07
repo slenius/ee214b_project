@@ -8,27 +8,26 @@ d.mb1.l = 0.36;
 d.mb2.l = 0.36;
 d.mb9.l = 0.36;
 
-d.m1.gm_id = 10;
-d.m2.gm_id = 10;
-d.m3.gm_id = 10;
+d.m1.gm_id = c.gm_id.m1;
+d.m2.gm_id = c.gm_id.m2;
+d.m3.gm_id = c.gm_id.m3;
 
-d.m1.gm = 5e-3;
-d.m2.gm = 5e-3;
-d.m3.gm = 2.5e-3;
+d.m1.gm = c.gm.m1;
+d.m2.gm = c.gm.m2;
+d.m3.gm = c.gm.m3;
 
 d.m1.id = d.m1.gm / d.m1.gm_id;
 d.m2.id = d.m2.gm / d.m2.gm_id;
 d.m3.id = d.m3.gm / d.m3.gm_id;
 
-gm_id_bias = 5;
 
-d.mb1.gm_id = gm_id_bias ;
+d.mb1.gm_id = c.gm_id.mbias ;
 d.mb1.id = d.m1.id;
 
-d.mb2.gm_id = gm_id_bias ;
+d.mb2.gm_id = c.gm_id.mbias ;
 d.mb2.id = d.m3.id;
 
-d.mb9.gm_id = gm_id_bias ;
+d.mb9.gm_id = c.gm_id.mbias ;
 d.mb9.id = d.mb1.id;
 
 d.m1.name = 'm1';
