@@ -3,41 +3,28 @@
 * ee114 device models
 .include /usr/class/ee214/hspice/ee214_hspice.sp
 
-r1  n_vdd n_x   250.0
-r2  n_vdd n_q   250.0
+r1  n_vdd n_x   750.0
 rgc n_vdd n_v   400.0
 
 cd        n_i   0   200.0f
-cl        n_o   0   20.0f
+cl        n_o   0   200.0f
 cb        n_b   0   1
-cz        n_z   0   1
 
-m1    n_x   n_vx  n_i   0     nmos214       w=20u l=0.18u
-m5    n_v   n_i   0     0     nmos214       w=20u l=0.18u
-m2    n_vdd n_x   n_y   0     nmos214       w=20u l=0.18u
-m3    n_w   n_y   n_z   0     nmos214       w=80u l=0.18u
-m4    n_q   n_c   n_w   0     nmos214       w=80u l=0.18u
-m6    n_vdd n_q   n_o   0     nmos214       w=20u l=0.18u
+m1    n_x   n_vx  n_i   0     nmos214       w=10u l=0.18u
+m5    n_v   n_i   0     0     nmos214       w=10u l=0.18u
 
-mb1   n_i   n_b   0     0     nmos214       w=8u l=0.36u
-mb2   n_y   n_b   0     0     nmos214       w=8u l=0.36u
-mb3   n_z   n_b   0     0     nmos214       w=8u l=0.36u
-mb4   n_o   n_b   0     0     nmos214       w=8u l=0.36u
+mb1   n_i   n_b   0     0     nmos214       w=4u l=0.36u
 
 vdd   n_vdd   0     1.8
 vx    n_v     n_vx  0
-vc    n_c     0     1.3
 is    n_i     0   DC=0  AC=1
-*is    n_i     0   sin(0 150u 1e9)
-ib    n_vdd   n_b  75u
-mb10   n_b     n_b   0     0     nmos214       w=1u l=0.36u
+ib    n_vdd   n_b   500u
+mb9   n_b     n_b   0     0     nmos214       w=2u l=0.36u
 .op
 .ac dec 1000 1e3 1000e9
 .lstb mode=single vsource=vx
 .probe ac lstb(db) lstb(p)
 .pz v(n_x) is
 .noise v(n_x) is
-*.tran 1p 5n
-
 .option post brief accurate
 .end

@@ -2,7 +2,7 @@ clear all;
 close all;
 %addpath('/usr/class/ee214/matlab/hspice_toolbox');
 
-h = loadsig('rgc.ac0');
+h = loadsig('matlab.ac0');
 %lssig(h)
 
 f = evalsig(h,'HERTZ');
@@ -12,7 +12,7 @@ t_phase = evalsig(h,'lstb_phase') - 180;
 inoise = evalsig(h,'innoise');
 onoise = evalsig(h,'outnoise');
 
-vo_cmplx = evalsig(h,'n_x');
+vo_cmplx = evalsig(h,'n_o');
 
 vo_mag = 20 * log10(abs(vo_cmplx));
 vo_phase = 180/pi * unwrap(angle(vo_cmplx)) + 180;
