@@ -12,10 +12,14 @@ t_phase = evalsig(h,'lstb_phase') - 180;
 inoise = evalsig(h,'innoise');
 onoise = evalsig(h,'outnoise');
 
+vx_cmplx = evalsig(h,'n_x');
 vo_cmplx = evalsig(h,'n_o');
 
 vo_mag = 20 * log10(abs(vo_cmplx));
-vo_phase = 180/pi * unwrap(angle(vo_cmplx)) + 180;
+vo_phase = 180/pi * unwrap(angle(vo_cmplx)) - 180;
+
+vx_mag = 20 * log10(abs(vx_cmplx));
+vx_phase = 180/pi * unwrap(angle(vx_cmplx)) - 180;
 
 
 unity_index = find(abs(t_mag) == min(abs(t_mag)));
@@ -112,8 +116,9 @@ a_cl_3db_spice = min(f(vo_mag<=vo_mag(1)-3));
 h = figure();
 set(h, 'Position', [100, 100, 800 600]);
 subplot(2,1,1);
-semilogx(f,vo_mag,'linewidth',2);
+semilogx(f,vo_mag,'b-');
 hold on
+semilogx(f,vx_mag,'r-');
 plot([a_cl_3db_spice a_cl_3db_spice], [-1000, vo_mag(1)-3], 'k--x')
 hold off
 title('Amplifier A(jw) Magnitude and Phase');
@@ -130,7 +135,9 @@ s = sprintf('Closed Loop 3dB:\nSpice: %0.1fGHz', a_cl_3db_spice/1e9);
 text(1e8, 30, s)
 
 subplot(2,1,2);
-semilogx(f,vo_phase,'linewidth',2);
+semilogx(f,vo_phase,'b-');
+hold on
+semilogx(f,vx_phase,'r-');
 xlim([min(f),max(f)]);
 ylim([-200, 15])
 ylabel('Phase (degrees)'); xlabel('Frequency (Hz)');
@@ -142,16 +149,16 @@ text(1e4, -90, s)
 s = sprintf('Imag Pole:\nHand: %0.1fGHz\nSpice: %0.1fGHz\nError: %0.1f%%', pole_1_hand/1e9, pole_1_spice/1e9, pole_1_err);
 text(1e6, -90, s)
 
-
-h = figure();
-set(h, 'Position', [100, 100, 800 600]);
-semilogx(f, sqrt(inoise)*1e12, 'linewidth',2);
-hold on;
-%plot([f3db f3db], [-180 sqrt(3.312e-22)*1e12], 'k--x');
-title('Input Referred Noise');
-t = 'Noise $$ (\frac{pA}{\sqrt Hz}) $$';
-ylabel('Noise (pA / sqrt(Hz))');
-xlabel('Frequency (Hz)');
-xlim([min(f) 3e10])
-ylim([0 50])
-grid;
+% 
+% h = figure();
+% set(h, 'Position', [100, 100, 800 600]);
+% semilogx(f, sqrt(inoise)*1e12, 'linewidth',2);
+% hold on;
+% %plot([f3db f3db], [-180 sqrt(3.312e-22)*1e12], 'k--x');
+% title('Input Referred Noise');
+% t = 'Noise $$ (\frac{pA}{\sqrt Hz}) $$';
+% ylabel('Noise (pA / sqrt(Hz))');
+% xlabel('Frequency (Hz)');
+% xlim([min(f) 3e10])
+% ylim([0 50])
+% grid;

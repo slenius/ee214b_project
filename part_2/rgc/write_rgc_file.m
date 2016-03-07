@@ -10,7 +10,7 @@ fprintf(f, '* ee114 device models\n');
 fprintf(f, '.include /usr/class/ee214/hspice/ee214_hspice.sp\n');
 
 fprintf(f, '\n');
-fprintf(f, 'r1  n_vdd n_o   %0.1f\n', d.r_1);
+fprintf(f, 'r1  n_vdd n_x   %0.1f\n', d.r_1);
 fprintf(f, 'rb n_vdd n_v   %0.1f\n', d.r_b);
 %fprintf(f, 'rf  n_ox  n_i   %0.1f\n', d.r_f);
 
@@ -20,11 +20,15 @@ fprintf(f, 'cl        n_o   0   %0.1ff\n', c.c_l*1e15);
 fprintf(f, 'cb        n_b   0   1');
 
 fprintf(f, '\n');
-fprintf(f, 'm1    n_o   n_vx  n_i   0     nmos214       w=%0.1fu l=%0.2fu\n', d.m1.w, d.m1.l);
+fprintf(f, 'm1    n_x   n_vx  n_i   0     nmos214       w=%0.1fu l=%0.2fu\n', d.m1.w, d.m1.l);
 fprintf(f, 'm2    n_v   n_i   0     0     nmos214       w=%0.1fu l=%0.2fu\n', d.m2.w, d.m2.l);
+fprintf(f, 'm3    n_vdd n_x   n_o   0     nmos214       w=%0.1fu l=%0.2fu\n', d.m3.w, d.m3.l);
+
 
 fprintf(f, '\n');
 fprintf(f, 'mb1   n_i   n_b   0     0     nmos214       w=%0.1fu l=%0.2fu\n', d.mb1.w, d.mb1.l);
+fprintf(f, 'mb2   n_o   n_b   0     0     nmos214       w=%0.1fu l=%0.2fu\n', d.mb2.w, d.mb2.l);
+
 
 fprintf(f, '\n');
 fprintf(f, 'vdd   n_vdd   0     %0.1f\n', c.vdd);
