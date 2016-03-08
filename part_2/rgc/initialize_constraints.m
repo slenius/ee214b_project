@@ -10,14 +10,15 @@ c.gamma = 0.85;
 c.c_d = 200e-15;
 c.loop_gain = 2;
 
-c.gm_id.m1 = 10;
-c.gm_id.m2 = 10;
-c.gm_id.m3 = 10;
-c.gm_id.mbias = 5;
+c.gm_id.m1 = 8;
+c.gm_id.m2 = 11;
+c.gm_id.m3 = 10.5;
+c.gm_id.mbias = 4.0;
 
-c.gm.m1 = 5e-3;
-c.gm.m2 = 5e-3;
-c.gm.m3 = 2.5e-3;
+c.bias_l = 0.18;
+
+c.gm.m1 = 3.75e-3;
+c.gm.m2 = 12e-3;
 
 c.rgc.a = 5;
 

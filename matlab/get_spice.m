@@ -1,4 +1,5 @@
-function d = get_spice(d,c)
+function d = get_spice(d, c)
+
 
 h = loadsig('matlab.ac0');
 

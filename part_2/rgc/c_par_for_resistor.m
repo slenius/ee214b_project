@@ -5,8 +5,8 @@ c.J = 1e-3 ;        % 1mA/1um
 c.r_sq_poly = 8.3 ; % sq/ohm
 
 d.r_par.r = r;
-d.r_par.w = (i / c.J) * 1e-6 ;
-d.r_par.l = d.r_par.r * i * c.J / c.r_sq_poly ;
+d.r_par.w = (i / c.J) ;
+d.r_par.l = d.r_par.r * d.r_par.w / c.r_sq_poly ;
 d.r_par.c_par = c.c_a * d.r_par.w * d.r_par.l ; 
 
 end

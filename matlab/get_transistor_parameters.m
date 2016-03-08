@@ -1,5 +1,7 @@
 function m = get_transistor_parameters(m, data, vsbinit)
 
+
+
 % intializing for looping
 if not(isfield(m, 'vsb'))
     m.vsb = vsbinit;
@@ -49,6 +51,7 @@ m.cdd = m.cgg * lookup(data, 'CDD_CGG', 'GM_ID', m.gm_id, 'L', m.l);
 m.css = m.cgg * lookup(data, 'CSS_CGG', 'GM_ID', m.gm_id, 'L', m.l);
 m.cdb = m.cdd - m.cgd;
 m.cgs = m.cgg - m.cgd;
+m.csb = m.css - m.cgs;
 
 m.vt = lookup(data, 'VT', 'L', m.l, 'VGS', m.vgs, 'VDS', m.vgs, 'VSB', m.vsb);
 
@@ -56,5 +59,7 @@ m.vov = 2 / m.gm_id;
 m.vgs = m.vov + m.vt;
 
 m.intrinsic_gain = m.gm * m.ro;
+
+m.w = clamp(m.w, 1000, 0.36);
 
 end

@@ -11,13 +11,16 @@ fprintf(f, '.include /usr/class/ee214/hspice/ee214_hspice.sp\n');
 
 fprintf(f, '\n');
 fprintf(f, 'r1  n_vdd n_x   %0.1f\n', d.r_1);
-fprintf(f, 'rb n_vdd n_v   %0.1f\n', d.r_b);
-%fprintf(f, 'rf  n_ox  n_i   %0.1f\n', d.r_f);
+
 
 fprintf(f, '\n');
 fprintf(f, 'cd        n_i   0   %0.1ff\n', c.c_d*1e15);
 fprintf(f, 'cl        n_o   0   %0.1ff\n', c.c_l*1e15);
-fprintf(f, 'cb        n_b   0   1');
+fprintf(f, 'cr1       n_vdd n_x %0.1ff\n', d.c_r_1*1e15);
+fprintf(f, 'cbn       n_bn  0   1\n');
+fprintf(f, 'cbp       n_bp  0   1\n');
+
+fprintf(f, 'cf        n_i   n_v %0.1ff\n', d.c_f*1e15);
 
 fprintf(f, '\n');
 fprintf(f, 'm1    n_x   n_vx  n_i   0     nmos214       w=%0.1fu l=%0.2fu\n', d.m1.w, d.m1.l);
@@ -26,8 +29,10 @@ fprintf(f, 'm3    n_vdd n_x   n_o   0     nmos214       w=%0.1fu l=%0.2fu\n', d.
 
 
 fprintf(f, '\n');
-fprintf(f, 'mb1   n_i   n_b   0     0     nmos214       w=%0.1fu l=%0.2fu\n', d.mb1.w, d.mb1.l);
-fprintf(f, 'mb2   n_o   n_b   0     0     nmos214       w=%0.1fu l=%0.2fu\n', d.mb2.w, d.mb2.l);
+fprintf(f, 'mb1   n_i   n_bn  0     0     nmos214       w=%0.1fu l=%0.2fu\n', d.mb1.w, d.mb1.l);
+fprintf(f, 'mb2   n_o   n_bn  0     0     nmos214       w=%0.1fu l=%0.2fu\n', d.mb2.w, d.mb2.l);
+fprintf(f, 'mb3   n_v   n_bp  n_vdd n_vdd pmos214       w=%0.1fu l=%0.2fu\n', d.mb3.w, d.mb3.l);
+
 
 
 fprintf(f, '\n');
@@ -35,12 +40,17 @@ fprintf(f, 'vdd   n_vdd   0     %0.1f\n', c.vdd);
 fprintf(f, 'vx    n_v     n_vx  0\n');
 
 fprintf(f, 'is    n_i     0   DC=0  AC=1\n');
+fprintf(f, '*is    n_i     0   sin(0 150u 1e9)\n')
 
-fprintf(f, 'ib    n_vdd   n_b %0.3fu\n', d.mb9.id*1e6);
-fprintf(f, 'mb4   n_b     n_b   0     0     nmos214       w=%0.1fu l=%0.2fu\n', d.mb9.w, d.mb9.l);
+fprintf(f, 'ib    n_vdd   n_bn  %0.3fu\n', d.mb9.id*1e6);
+fprintf(f, 'mb9   n_bn    n_bn  0     0     nmos214       w=%0.1fu l=%0.2fu\n', d.mb9.w, d.mb9.l);
+fprintf(f, 'mb10  n_bp    n_bn  0     0     nmos214       w=%0.1fu l=%0.2fu\n', d.mb10.w, d.mb10.l);
+fprintf(f, 'mb11  n_bp    n_bp  n_vdd n_vdd pmos214       w=%0.1fu l=%0.2fu\n', d.mb11.w, d.mb11.l);
+
 
 fprintf(f, '.op\n');
 fprintf(f, '.ac dec 1000 1e3 1000e9\n');
+fprintf(f, '*.tran 1p 5n\n')
 fprintf(f, '.lstb mode=single vsource=vx\n');
 fprintf(f, '.probe ac lstb(db) lstb(p)\n');
 fprintf(f, '.pz v(n_o) is\n');

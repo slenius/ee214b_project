@@ -2,19 +2,21 @@ clear all
 close all
 
 load 180nch.mat;
-pch = 0;
+load 180pch.mat;
 
-gm_id_rgc = linspace(5, 18, 7);
-gm_rgc = linspace(1e-3, 20e-3, 7);
-a = 5;
+sw_a = linspace(1, 18, 8);
+sw_b = linspace(1, 18, 8);
+%sw_a = linspace(1e-3, 10e-3, 7);
+%sw_b = linspace(1e-3, 20e-3, 7);
+sw_c = 0;
 
-nel = length(gm_id_rgc) * length(gm_rgc) * length(a);
+nel = length(sw_a) * length(sw_b) * length(sw_c);
 
-[gm_id_rgc_g, gm_rgc_g, a_g] = ndgrid(gm_id_rgc, gm_rgc, a);
+[sw_a_g, sw_b_g, sw_c_g] = ndgrid(sw_a, sw_b, sw_c);
 
-gm_id_rgc_i = reshape(gm_id_rgc_g, [nel, 1]);
-gm_rgc_i = reshape(gm_rgc_g, [nel, 1]);
-a_i = reshape(a_g, [nel, 1]);
+sw_a_i = reshape(sw_a_g, [nel, 1]);
+sw_b_i = reshape(sw_b_g, [nel, 1]);
+sw_c_i = reshape(sw_c_g, [nel, 1]);
 
 designs = cell(nel,1);
 
@@ -22,16 +24,13 @@ for i = 1:nel;
     d = struct();
     c = initialize_constraints();
     
-    c.gm_id.m1 = gm_id_rgc_i(i);
-    c.gm_id.m2 = gm_id_rgc_i(i);
+    %c.gm.m1 = sw_a_i(i);
+    %c.gm.m2 = sw_b_i(i);
+    %c.gm_id.m1 = sw_a_i(i);
+    %c.gm_id.m2 = sw_b_i(i);
+    c.gm_id.m3 = sw_a_i(i);
+    c.gm_id.mbias = sw_b_i(i);
     
-    c.gm.m1 = gm_rgc_i(i);
-    c.gm.m2 = gm_rgc_i(i);   
-    
-    c.rgc.a = a_i(i);
-    
-    d.r_1 = 900;
-
     d = initialize_trans(d, c);
 
     for loop = 1:3

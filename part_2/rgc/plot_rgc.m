@@ -149,16 +149,16 @@ text(1e4, -90, s)
 s = sprintf('Imag Pole:\nHand: %0.1fGHz\nSpice: %0.1fGHz\nError: %0.1f%%', pole_1_hand/1e9, pole_1_spice/1e9, pole_1_err);
 text(1e6, -90, s)
 
-% 
-% h = figure();
-% set(h, 'Position', [100, 100, 800 600]);
-% semilogx(f, sqrt(inoise)*1e12, 'linewidth',2);
-% hold on;
-% %plot([f3db f3db], [-180 sqrt(3.312e-22)*1e12], 'k--x');
-% title('Input Referred Noise');
-% t = 'Noise $$ (\frac{pA}{\sqrt Hz}) $$';
-% ylabel('Noise (pA / sqrt(Hz))');
-% xlabel('Frequency (Hz)');
-% xlim([min(f) 3e10])
-% ylim([0 50])
-% grid;
+
+h = figure();
+set(h, 'Position', [100, 100, 800 600]);
+semilogx(f, sqrt(inoise)*1e12, 'linewidth',2);
+hold on;
+%plot([f3db f3db], [-180 sqrt(3.312e-22)*1e12], 'k--x');
+title('Input Referred Noise');
+t = 'Noise $$ (\frac{pA}{\sqrt Hz}) $$';
+ylabel('Noise (pA / sqrt(Hz))');
+xlabel('Frequency (Hz)');
+xlim([min(f) 3e10])
+ylim([0 50])
+grid;
