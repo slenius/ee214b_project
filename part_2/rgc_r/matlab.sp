@@ -22,13 +22,13 @@ mb2   n_o   n_bn  0     0     nmos214       w=1.0u l=0.18u
 
 vdd   n_vdd   0     1.8
 vx    n_v     n_vx  0
-is    n_i     0   DC=0  AC=1
-*is    n_i     0   sin(0 150u 1e9)
+*is    n_i     0   DC=0  AC=1
+is    n_i     0   sin(0 150u 1e9)
 ib    n_vdd   n_bn  500.000u
 mb9   n_bn    n_bn  0     0     nmos214       w=4.5u l=0.18u
 .op
-.ac dec 1000 1e3 1000e9
-*.tran 1p 5n
+*.ac dec 1000 1e3 1000e9
+.tran 1p 5n
 .lstb mode=single vsource=vx
 .probe ac lstb(db) lstb(p)
 .pz v(n_o) is
