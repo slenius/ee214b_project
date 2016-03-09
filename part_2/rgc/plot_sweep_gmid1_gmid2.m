@@ -41,7 +41,8 @@ for i = 1:length(rgc_a_i)
 
     tsi = TriScatteredInterp(gmid1',gmid2',f'/1e9);
     Z = tsi(X,Y);
-    figure;
+    h = figure();
+    set(h, 'Position', [100, 100, 800 600]);
     [C, h] = contourf(X, Y, Z);
     clabel(C, h);
     colormap(hot)
@@ -57,7 +58,8 @@ for i = 1:length(rgc_a_i)
 
     tsi = TriScatteredInterp(gmid1',gmid2',a');
     Z = tsi(X,Y);
-    figure;
+    h = figure();
+    set(h, 'Position', [100, 100, 800 600]);
     [C, h] = contourf(X, Y, Z);
     clabel(C, h);
     colormap(hot)

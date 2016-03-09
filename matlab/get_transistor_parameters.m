@@ -36,6 +36,9 @@ else
     m.w = m.id / id_w;
 end
 
+m.w = round(m.w, 1);
+
+
 m.gds = m.gm * lookup(data, 'GDS_GM', 'GM_ID', m.gm_id, 'L', m.l);
 m.ro = 1 / m.gds; 
 

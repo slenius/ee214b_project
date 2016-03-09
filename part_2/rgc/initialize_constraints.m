@@ -2,7 +2,7 @@ function c = initialize_constraints()
 c = ee214b_defaults('mos180', 300);
 
 c.vdd = 1.8;
-c.overall_gain_cl = 720;
+c.overall_gain_cl = 730;
 c.total_current = 10.1e-3;
 c.input_noise = 20e-12;
 c.c_l = 20e-15;

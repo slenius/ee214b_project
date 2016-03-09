@@ -41,12 +41,13 @@ for i = 1:length(rgc_a_i)
 
     tsi = TriScatteredInterp(gmid3',gmidbias',f'/1e9);
     Z = tsi(X,Y);
-    figure;
+    h = figure();
+    set(h, 'Position', [100, 100, 800 600]);
     [C, h] = contourf(X, Y, Z);
     clabel(C, h);
     colormap(hot)
     xlabel('gm/id_3');
-    ylabel('gm/id_bias');
+    ylabel('gm/id bias');
     caxis([0 max(f)/1e9]);
     h = colorbar;
     ylabel(h, 'Closed Loop Speed (GHz)');
@@ -57,12 +58,13 @@ for i = 1:length(rgc_a_i)
 
     tsi = TriScatteredInterp(gmid3',gmidbias',a');
     Z = tsi(X,Y);
-    figure;
+    h = figure();
+    set(h, 'Position', [100, 100, 800 600]);
     [C, h] = contourf(X, Y, Z);
     clabel(C, h);
     colormap(hot)
     xlabel('gm/id_3');
-    ylabel('gm/id_bias');
+    ylabel('gm/id bias');
     h = colorbar;
     ylabel(h, 'Closed Loop Gain (dB)');
     title(str);
