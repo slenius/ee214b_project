@@ -1,7 +1,7 @@
 clear all
 close all
 
-load('sweep_gm1_gm2.mat');
+load('sweep_gm1_gm2_2.mat');
 
 for i = 1:nel
     d = designs{i};
@@ -19,7 +19,7 @@ end
 
 
 
-%f(a < 55) = 0;
+f(a < 50) = 0;
 a(a < 0) = 0;
 
 rgc_a = 1;
