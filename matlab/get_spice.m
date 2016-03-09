@@ -35,6 +35,6 @@ d.spice_f_cl = min(f(vo_mag<=vo_mag(1)-3));
 d.spice_a_cl = vo_mag(1);
 
 d.spice_gain_peaking = max(vo_mag) - vo_mag(1);
-
+d.spice_inoise_3db = sqrt(min(inoise((vo_mag<=vo_mag(1)-3))));
 
 end

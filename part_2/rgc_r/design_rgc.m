@@ -8,7 +8,7 @@ d = struct();
 c = initialize_constraints();
 d = initialize_trans(d, c);
 
-for i =1:5
+for i =1:3
     fprintf('Loop %d\n', i);
 
     d = run_design_loop(d, c, nch, pch);

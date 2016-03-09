@@ -10,7 +10,7 @@ for i = 1:nel
     gm2(i) = d.m2.gm;
     gp(i) = d.spice_gain_peaking;
     A(i) = d.m2.gm * d.r_2;
-    
+    noise(i) = d.spice_inoise_3db;
     if length(d.spice_f_cl)
         f(i) = d.spice_f_cl;
     else
@@ -34,12 +34,21 @@ legend('Gain Peaking (dB)', 'Spec Limit');
 h = figure();
 set(h, 'Position', [100, 100, 800 600]);
 plot(A, f);
-hold on;
-plot([-100 100], [1 1], 'k--');
-hold off
 xlim([0 25]);
 title('Bandwidth vs RGC Gain')
 xlabel('Loop Gain = gm_2 * R_2');
 ylabel('Bandwidth (GHz)');
+
+h = figure();
+set(h, 'Position', [100, 100, 800 600]);
+plot(A, noise*1e12);
+hold on;
+plot([-100 100], [20 20], 'k--');
+hold off
+xlim([0 25]);
+ylim([0 25]);
+title('Noise vs RGC Gain')
+xlabel('Loop Gain = gm_2 * R_2');
+ylabel('Input Noise (pA/sqrt(Hz))');
 
 

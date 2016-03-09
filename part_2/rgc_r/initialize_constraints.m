@@ -20,6 +20,6 @@ c.bias_l = 0.18;
 c.gm.m1 = 4e-3;
 c.gm.m2 = 8e-3;
 
-c.rgc.a = 8;
+c.rgc.a = 7;
 
 end
