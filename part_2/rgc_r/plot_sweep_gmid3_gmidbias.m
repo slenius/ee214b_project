@@ -1,7 +1,7 @@
 clear all
 close all
 
-load('sweep_gmid3_gmidbias.mat');
+load('sweep_gmid3_gmidbias_3.mat');
 
 for i = 1:nel
     d = designs{i};
@@ -19,7 +19,7 @@ end
 
 
 
-f(a < 55) = 0;
+%f(a < 55) = 0;
 a(a < 0) = 0;
 
 rgc_a = 1;
@@ -43,12 +43,13 @@ for i = 1:length(rgc_a_i)
     Z = tsi(X,Y);
     h = figure();
     set(h, 'Position', [100, 100, 800 600]);
+    subplot(2,1,1);
     [C, h] = contourf(X, Y, Z);
     clabel(C, h);
     colormap(hot)
     xlabel('gm/id_3');
     ylabel('gm/id bias');
-    caxis([0 max(f)/1e9]);
+    caxis([0 6]);
     h = colorbar;
     ylabel(h, 'Closed Loop Speed (GHz)');
     str = sprintf('gm/id_3 vs gm/id bias, gm1 = %0.1fmS, gm2 = %0.1fmS', d.m1.gm*1e3, d.m2.gm*1e3);
@@ -58,11 +59,11 @@ for i = 1:length(rgc_a_i)
 
     tsi = TriScatteredInterp(gmid3',gmidbias',a');
     Z = tsi(X,Y);
-    h = figure();
-    set(h, 'Position', [100, 100, 800 600]);
+    subplot(2,1,2);
     [C, h] = contourf(X, Y, Z);
     clabel(C, h);
     colormap(hot)
+    caxis([0 57]);
     xlabel('gm/id_3');
     ylabel('gm/id bias');
     h = colorbar;

@@ -38,8 +38,12 @@ end
 
 m.w = round(m.w, 1);
 
-
-m.gds = m.gm * lookup(data, 'GDS_GM', 'GM_ID', m.gm_id, 'L', m.l);
+gds_id = lookup(data, 'GDS_ID', 'GM_ID', m.gm_id, 'L', m.l, 'VDS', m.vds, 'VSB', m.vsb, 'VGS', m.vsb:0.01:1.8);
+if length(gds_id) ~= 1
+  m.gds = m.id * lookup(data, 'GDS_ID', 'GM_ID', m.gm_id, 'L', m.l);
+else
+  m.gds = m.id * gds_id;
+end
 m.ro = 1 / m.gds; 
 
 maxw = 500;

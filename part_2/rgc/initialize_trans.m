@@ -52,7 +52,7 @@ d.m2.name = 'm2';
 d.m2.type = 'nch';
 
 d.m3.name = 'm3';
-d.m3.type = 'nch';
+d.m3.type = 'pch';
 
 d.mb1.name = 'mb1';
 d.mb1.type = 'nch';

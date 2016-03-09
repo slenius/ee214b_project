@@ -19,7 +19,7 @@ end
 
 
 
-f(a < 55) = 0;
+%f(a < 55) = 0;
 a(a < 0) = 0;
 
 rgc_a = 1;
@@ -43,12 +43,13 @@ for i = 1:length(rgc_a_i)
     Z = tsi(X,Y);
     h = figure();
     set(h, 'Position', [100, 100, 800 600]);
+    subplot(2,1,1);
     [C, h] = contourf(X, Y, Z);
     clabel(C, h);
-    colormap(hot)
+    colormap(hot);
     xlabel('gm/id_1');
     ylabel('gm/id_2');
-    caxis([0 max(f)/1e9]);
+    caxis([0 6]);
     h = colorbar;
     ylabel(h, 'Closed Loop Speed (GHz)');
     str = sprintf('gm/id_1 vs gm/id_2, gm1 = %0.1fmS, gm2 = %0.1fmS', d.m1.gm*1e3, d.m2.gm*1e3);
@@ -58,10 +59,10 @@ for i = 1:length(rgc_a_i)
 
     tsi = TriScatteredInterp(gmid1',gmid2',a');
     Z = tsi(X,Y);
-    h = figure();
-    set(h, 'Position', [100, 100, 800 600]);
+    subplot(2,1,2);
     [C, h] = contourf(X, Y, Z);
     clabel(C, h);
+    caxis([0, 57]);
     colormap(hot)
     xlabel('gm/id_1');
     ylabel('gm/id_2');

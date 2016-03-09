@@ -34,6 +34,7 @@ t_180_spice = f(t_180_spice_index);
 d.spice_f_cl = min(f(vo_mag<=vo_mag(1)-3));
 d.spice_a_cl = vo_mag(1);
 
+d.spice_gain_peaking = max(vo_mag) - vo_mag(1);
 
 
 end

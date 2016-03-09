@@ -20,5 +20,6 @@ function d = get_node_voltages(d, c)
     
     d.mb1.vds = clamp(d.v_in, c.vdd, min_vds);
     d.mb2.vds = clamp(d.v_o, c.vdd, min_vds);
+    d.mb3.vds = clamp(c.vdd - d.v_v, c.vdd, min_vds);
     
 end

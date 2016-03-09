@@ -16,8 +16,8 @@ end
 d = check_node_voltages(d, c);
 d = check_saturation(d, c);
 
-write_rgc_file(d, c);
-run_spice();
-d = get_spice(d, c);
+%write_rgc_file(d, c);
+%run_spice();
+%d = get_spice(d, c);
 
 d

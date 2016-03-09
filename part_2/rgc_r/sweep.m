@@ -4,10 +4,11 @@ close all
 load 180nch.mat;
 load 180pch.mat;
 
-sw_a = linspace(1, 18, 8);
-sw_b = linspace(1, 18, 8);
+sw_a = linspace(1, 25, 20);
+%sw_b = linspace(1, 18, 8);
 %sw_a = linspace(1e-3, 10e-3, 7);
 %sw_b = linspace(1e-3, 20e-3, 7);
+sw_b = 0;
 sw_c = 0;
 
 nel = length(sw_a) * length(sw_b) * length(sw_c);
@@ -28,8 +29,9 @@ for i = 1:nel;
     %c.gm.m2 = sw_b_i(i);
     %c.gm_id.m1 = sw_a_i(i);
     %c.gm_id.m2 = sw_b_i(i);
-    c.gm_id.m3 = sw_a_i(i);
-    c.gm_id.mbias = sw_b_i(i);
+    %c.gm_id.m3 = sw_a_i(i);
+    %c.gm_id.mbias = sw_b_i(i);
+    c.rgc.a = sw_a_i;
     
     d = initialize_trans(d, c);
 
